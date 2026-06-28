@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample AI & Robotics Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0D1B2A;
+            --navy-mid: #162030;
+            --navy-light: #1E3A5F;
+            --accent: #F5BF30;
+            --accent-blue: #4A9EF5;
+            --white: #FFFFFF;
+            --off-white: #F8F9FB;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-400: #94A3B8;
+            --gray-600: #475569;
+            --gray-800: #1E293B;
+            --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--gray-800);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        /* ── NAVIGATION ── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--navy);
+            transition: var(--transition);
+        }
+        nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            height: 70px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--navy);
+            font-size: 0.9rem;
+        }
+        .nav-logo-text { color: var(--white); font-size: 1rem; font-weight: 600; letter-spacing: 0.02em; }
+        .nav-logo-text span { color: var(--accent); }
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 0.875rem;
+            border-radius: 6px;
+            transition: var(--transition);
+            cursor: pointer;
+            letter-spacing: 0.02em;
+        }
+        .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.1); }
+        .nav-links a.active { color: var(--accent); background: rgba(201,168,76,0.08); }
+
+        /* ── PAGES ── */
+        .page { display: none; min-height: 100vh; }
+        .page.active { display: block; }
+
+        /* ── HOME HERO ── */
+        .hero {
+            background: linear-gradient(135deg, #0A1628 0%, #162447 55%, #1a2d5a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 70px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(74,158,245,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.07) 0%, transparent 50%);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(201,168,76,0.12);
+            border: 1px solid rgba(201,168,76,0.25);
+            color: var(--accent);
+            padding: 0.375rem 0.875rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        .hero h1 .highlight { color: var(--accent); }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.62);
+            max-width: 580px;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+        }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--accent);
+            color: var(--navy);
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            letter-spacing: 0.02em;
+        }
+        .btn-primary:hover {
+            background: #d4b050;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201,168,76,0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: var(--transition);
+        }
+        .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
+        }
+        .stat-number { font-size: 2.25rem; font-weight: 800; color: var(--white); line-height: 1; }
+        .stat-number span { color: var(--accent); }
+        .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
+
+        /* ── SHARED SECTION STYLES ── */
+        section { padding: 6rem 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .section-tag { display: inline-block; color: var(--accent); font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+        .section-title { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+        .section-subtitle { color: var(--gray-600); font-size: 1rem; max-width: 560px; line-height: 1.7; }
+        .section-header { margin-bottom: 3rem; }
+        .bg-alt { background: var(--off-white); }
+
+        /* ── HOME NEWS CARDS ── */
+        .news-grid-home { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .news-card-home {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .news-card-home:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.07); }
+        .news-date { font-size: 0.72rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        .news-card-home h3 { font-size: 0.975rem; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 0.625rem; }
+        .news-card-home p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.65; }
+        .news-type-tag {
+            display: inline-block;
+            background: rgba(74,158,245,0.1);
+            color: var(--accent-blue);
+            font-size: 0.67rem;
+            font-weight: 700;
+            padding: 0.18rem 0.55rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.625rem;
+        }
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            background: linear-gradient(180deg, var(--navy) 0%, #1B2B4B 100%);
+            padding: 8rem 0 4rem;
+            margin-top: 70px;
+        }
+        .page-hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--white); letter-spacing: -0.02em; }
+        .page-hero p { color: rgba(255,255,255,0.55); margin-top: 0.4rem; font-size: 0.95rem; }
+        .breadcrumb { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.875rem; font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+        .breadcrumb span { color: var(--accent); }
+
+        /* ── PROFESSOR ── */
+        .prof-layout { display: grid; grid-template-columns: 300px 1fr; gap: 4rem; align-items: start; }
+        .prof-photo-card { position: sticky; top: 90px; }
+        .prof-photo {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(160deg, #1E3A5F, #2D4270);
+            border-radius: 16px;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            overflow: hidden;
+        }
+        .prof-links { display: flex; flex-direction: column; gap: 0.5rem; }
+        .prof-link {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.625rem 0.875rem;
+            background: var(--off-white);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.83rem;
+            color: var(--gray-800);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .prof-link:hover { border-color: var(--accent); color: var(--accent); }
+        .prof-info h2 { font-size: 2rem; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+        .prof-title { font-size: 1rem; color: var(--accent); font-weight: 600; margin-bottom: 0.2rem; }
+        .prof-dept { font-size: 0.875rem; color: var(--gray-600); margin-bottom: 2rem; }
+        .prof-bio { font-size: 0.95rem; color: var(--gray-600); line-height: 1.82; margin-bottom: 2rem; }
+        .prof-section-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.875rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-200);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .interest-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+        .interest-tag {
+            background: rgba(13,27,42,0.06);
+            color: var(--navy);
+            padding: 0.375rem 0.875rem;
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            border: 1px solid var(--gray-200);
+        }
+        .edu-list { list-style: none; }
+        .edu-list li { display: flex; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid var(--gray-200); }
+        .edu-year { color: var(--accent); font-weight: 700; min-width: 44px; font-size: 0.78rem; padding-top: 0.15rem; }
+        .edu-content strong { display: block; font-weight: 600; color: var(--navy); font-size: 0.9rem; margin-bottom: 0.1rem; }
+        .edu-content span { color: var(--gray-600); font-size: 0.83rem; }
+
+        /* ── RESEARCH ── */
+        .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
+        .research-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .research-card:hover { border-color: rgba(13,27,42,0.18); box-shadow: 0 20px 50px rgba(0,0,0,0.09); transform: translateY(-4px); }
+        .research-abstract {
+            height: 210px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .research-abstract::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 70%, rgba(74,158,245,0.22) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.14) 0%, transparent 50%);
+        }
+        .research-abstract-emoji { position: relative; z-index: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25)); }
+        .research-abstract-label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(201,168,76,0.9);
+            color: var(--navy);
+            font-size: 0.67rem;
+            font-weight: 700;
+            padding: 0.22rem 0.55rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            z-index: 1;
+        }
+        .research-body { padding: 1.625rem; }
+        .research-body h3 { font-size: 1.075rem; font-weight: 700; color: var(--navy); margin-bottom: 0.625rem; line-height: 1.3; }
+        .research-body p { font-size: 0.86rem; color: var(--gray-600); line-height: 1.72; margin-bottom: 1.125rem; }
+        .research-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+        .research-tag {
+            background: var(--off-white);
+            border: 1px solid var(--gray-200);
+            color: var(--gray-600);
+            font-size: 0.71rem;
+            padding: 0.18rem 0.55rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* ── PUBLICATION ── */
+        .filter-bar { display: flex; gap: 0.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 0.45rem 1rem;
+            border-radius: 100px;
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+        .pub-year-group { margin-bottom: 3rem; }
+        .pub-year-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.125rem; }
+        .pub-year-label { font-size: 1.4rem; font-weight: 800; color: var(--navy); }
+        .pub-year-line { flex: 1; height: 1px; background: var(--gray-200); }
+        .pub-list { list-style: none; }
+        .pub-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.125rem 1.25rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+        .pub-item:hover { background: var(--off-white); border-color: var(--gray-200); }
+        .pub-number { font-size: 0.78rem; font-weight: 700; color: var(--gray-400); min-width: 22px; padding-top: 0.2rem; }
+        .pub-title { font-size: 0.93rem; font-weight: 600; color: var(--navy); line-height: 1.42; margin-bottom: 0.325rem; cursor: pointer; transition: var(--transition); }
+        .pub-title:hover { color: var(--accent-blue); }
+        .pub-authors { font-size: 0.83rem; color: var(--gray-600); margin-bottom: 0.325rem; }
+        .pub-authors strong { color: var(--navy); font-weight: 600; }
+        .pub-venue { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+        .pub-journal { font-size: 0.8rem; font-style: italic; color: var(--gray-600); }
+        .pub-badge { font-size: 0.66rem; font-weight: 700; padding: 0.14rem 0.45rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .pub-badge.nature { background: #e8f5e9; color: #2e7d32; }
+        .pub-badge.science { background: #e3f2fd; color: #1565c0; }
+        .pub-badge.ieee { background: #fff3e0; color: #e65100; }
+        .pub-badge.acm { background: #f3e5f5; color: #6a1b9a; }
+        .pub-badge.best { background: #fff8e1; color: #f57f17; }
+        .pub-links { display: flex; gap: 0.4rem; margin-top: 0.5rem; }
+        .pub-link {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.18rem 0.55rem;
+            border-radius: 4px;
+            border: 1px solid var(--gray-200);
+            color: var(--gray-600);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .pub-link:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        /* ── MEMBERS ── */
+        .members-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+        .members-section-title::after { content: ''; flex: 1; height: 1px; background: var(--gray-200); }
+        .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.375rem; margin-bottom: 3rem; }
+        .member-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+            text-align: center;
+        }
+        .member-card:hover { border-color: var(--accent); box-shadow: 0 12px 30px rgba(0,0,0,0.07); transform: translateY(-4px); }
+        .member-photo {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #E2E8F0, #F1F5F9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .member-body { padding: 1.125rem 1rem; }
+        .member-name { font-size: 0.92rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
+        .member-role { font-size: 0.7rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+        .member-desc { font-size: 0.76rem; color: var(--gray-600); line-height: 1.55; }
+        .alumni-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+        .member-card-mini {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.75rem 1rem;
+            background: var(--off-white);
+            border-radius: 10px;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+        .member-card-mini:hover { border-color: var(--gray-400); }
+        .member-mini-photo {
+            width: 42px;
+            height: 42px;
+            background: var(--gray-200);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .member-mini-name { font-size: 0.83rem; font-weight: 600; color: var(--navy); margin-bottom: 0.1rem; }
+        .member-mini-info { font-size: 0.73rem; color: var(--gray-600); }
+
+        /* ── NEWS ── */
+        .news-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
+        .news-item {
+            display: grid;
+            grid-template-columns: 190px 1fr;
+            gap: 1.5rem;
+            padding: 1.625rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .news-item:first-child { padding-top: 0; }
+        .news-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, var(--navy), #1E3A5F);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.25rem;
+        }
+        .news-item-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+        .news-item h3 { font-size: 0.975rem; font-weight: 700; color: var(--navy); margin-bottom: 0.425rem; line-height: 1.4; cursor: pointer; transition: var(--transition); }
+        .news-item h3:hover { color: var(--accent-blue); }
+        .news-item p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.65; }
+        .sidebar-widget {
+            background: var(--off-white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.375rem;
+            margin-bottom: 1.375rem;
+        }
+        .sidebar-widget h3 { font-size: 0.875rem; font-weight: 700; color: var(--navy); margin-bottom: 1.125rem; padding-bottom: 0.55rem; border-bottom: 1px solid var(--gray-200); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.45rem; }
+        .gallery-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1E3A5F, #2D4270);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .gallery-item:hover { transform: scale(1.06); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+        /* ── FOOTER ── */
+        footer { background: var(--navy); color: rgba(255,255,255,0.55); padding: 3rem 0 2rem; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 2rem; }
+        .footer-brand h3 { color: var(--white); font-size: 1rem; font-weight: 700; margin-bottom: 0.625rem; }
+        .footer-brand p { font-size: 0.83rem; line-height: 1.7; }
+        .footer-col h4 { color: var(--white); font-size: 0.78rem; font-weight: 600; margin-bottom: 0.875rem; text-transform: uppercase; letter-spacing: 0.06em; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.45rem; }
+        .footer-col ul li a { font-size: 0.83rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: var(--transition); cursor: pointer; }
+        .footer-col ul li a:hover { color: var(--accent); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .members-grid { grid-template-columns: repeat(2, 1fr); }
+            .research-grid { grid-template-columns: 1fr; }
+            .prof-layout { grid-template-columns: 1fr; }
+            .prof-photo-card { position: static; }
+            .prof-photo { aspect-ratio: 16/9; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-stats { gap: 1.5rem; }
+            .news-grid-home { grid-template-columns: 1fr; }
+            .news-layout { grid-template-columns: 1fr; }
+            .news-item { grid-template-columns: 1fr; }
+            .alumni-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+        }
+
+        /* ── GOOGLE INTEGRATIONS ── */
+        .gallery-loading, .calendar-loading {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--gray-400);
+            font-size: 0.82rem;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.45rem;
+        }
+        .gallery-photo {
+            aspect-ratio: 1;
+            border-radius: 7px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--gray-200);
+        }
+        .gallery-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .gallery-photo:hover { transform: scale(1.04); box-shadow: 0 4px 15px rgba(0,0,0,0.18); }
+        .gallery-photo:hover img { transform: scale(1.08); }
+        .cal-event {
+            padding: 0.625rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .cal-event:last-child { border-bottom: none; }
+        .cal-event-date {
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.15rem;
+        }
+        .cal-event-title {
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 0.86rem;
+            line-height: 1.35;
+        }
+        .cal-event-location {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            margin-top: 0.1rem;
+        }
+        .cal-error {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .page.active > * { animation: fadeUp 0.45s ease both; }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <div class="nav-logo" onclick="showPage('home')">
+            <div class="nav-logo-icon">AR</div>
+            <div class="nav-logo-text"><span>Sample</span> Lab</div>
+        </div>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+            <li><a onclick="showPage('professor')" id="nav-professor">Professor</a></li>
+            <li><a onclick="showPage('research')" id="nav-research">Research</a></li>
+            <li><a onclick="showPage('publication')" id="nav-publication">Publication</a></li>
+            <li><a onclick="showPage('members')" id="nav-members">Members</a></li>
+            <li><a onclick="showPage('news')" id="nav-news">News</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     HOME
+══════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+    <div class="hero">
+        <div class="hero-inner">
+            <div class="hero-badge">Sample University · Department of Computer Science</div>
+            <h1>Advancing Intelligence<br>for a <span class="highlight">Better World</span></h1>
+            <p class="hero-subtitle">
+                We conduct cutting-edge research in artificial intelligence, robotics, and human-computer interaction — bridging fundamental science and real-world impact.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary" onclick="showPage('research')">Explore Research</button>
+                <button class="btn-outline" onclick="showPage('publication')">View Publications</button>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Latest Updates</div>
+                <h2 class="section-title">News & Highlights</h2>
+                <p class="section-subtitle">Recent achievements, publications, and events from our lab.</p>
+            </div>
+            <div class="news-grid-home">
+                <div class="news-card-home" onclick="showPage('news')">
+                    <div class="news-date">Jun 2026</div>
+                    <div class="news-type-tag">Award</div>
+                    <h3>Best Paper Award at NeurIPS 2026</h3>
+                    <p>Our work on self-supervised learning received the Best Paper Award at NeurIPS 2026 in Vancouver.</p>
+                </div>
+                <div class="news-card-home" onclick="showPage('news')">
+                    <div class="news-date">May 2026</div>
+                    <div class="news-type-tag">Publication</div>
+                    <h3>New Paper Accepted at Nature Machine Intelligence</h3>
+                    <p>Our research on multi-modal large language models has been accepted for publication.</p>
+                </div>
+                <div class="news-card-home" onclick="showPage('news')">
+                    <div class="news-date">Apr 2026</div>
+                    <div class="news-type-tag">People</div>
+                    <h3>Welcome New PhD Students!</h3>
+                    <p>We are excited to welcome three new PhD students joining the lab for Fall 2026 semester.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-alt">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">What We Do</div>
+                <h2 class="section-title">Research Directions</h2>
+                <p class="section-subtitle">Our work spans multiple domains at the intersection of AI, robotics, and human experience.</p>
+            </div>
+            <div class="research-grid">
+                <div class="research-card" onclick="showPage('research')" style="cursor:pointer;">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a3060, #1a5fa0);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">🤖</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>Embodied AI & Robotic Manipulation</h3>
+                        <p>Developing learning algorithms that enable robots to acquire dexterous manipulation skills from minimal demonstrations, bridging simulation and real-world deployment.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">Robot Learning</span>
+                            <span class="research-tag">Sim-to-Real</span>
+                            <span class="research-tag">Manipulation</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="research-card" onclick="showPage('research')" style="cursor:pointer;">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #1a0a40, #4a1a8a);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">🧠</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>Foundation Models for Scientific Discovery</h3>
+                        <p>Adapting large foundation models for scientific tasks including drug discovery, protein structure prediction, and materials design to accelerate breakthroughs.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">LLM</span>
+                            <span class="research-tag">Drug Discovery</span>
+                            <span class="research-tag">Scientific ML</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:2rem;">
+                <button class="btn-primary" onclick="showPage('research')">View All Research →</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Sample AI & Robotics Lab</h3>
+                    <p>Department of Computer Science<br>Sample University<br>Seoul, Republic of Korea<br><br>📧 prof@sample.ac.kr</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a onclick="showPage('professor')">Professor</a></li>
+                        <li><a onclick="showPage('research')">Research</a></li>
+                        <li><a onclick="showPage('publication')">Publication</a></li>
+                        <li><a onclick="showPage('members')">Members</a></li>
+                        <li><a onclick="showPage('news')">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a>prof@sample.ac.kr</a></li>
+                        <li><a>+82-2-000-0000</a></li>
+                        <li><a>Engineering Building 000</a></li>
+                        <li><a>Sample University, Seoul</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Sample AI & Robotics Lab. All rights reserved.</span>
+                <span>Built with ♥ for science</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PROFESSOR
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-professor">
+    <div class="page-hero">
+        <div class="container">
+            <div class="breadcrumb">Home <span>›</span> Professor</div>
+            <h1>Professor</h1>
+            <p>Meet the principal investigator</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="prof-layout">
+                <div class="prof-photo-card">
+                    <div class="prof-photo">👤</div>
+                    <div class="prof-links">
+                        <a class="prof-link">✉️ &nbsp;prof@sample.ac.kr</a>
+                        <a class="prof-link">🔗 &nbsp;Google Scholar</a>
+                        <a class="prof-link">💼 &nbsp;LinkedIn</a>
+                        <a class="prof-link">🐦 &nbsp;Twitter / X</a>
+                        <a class="prof-link">🐱 &nbsp;GitHub</a>
+                    </div>
+                </div>
+                <div class="prof-info">
+                    <h2>홍길동 (Gildong Hong)</h2>
+                    <p class="prof-title">Associate Professor</p>
+                    <p class="prof-dept">Department of Computer Science & Engineering · Sample University</p>
+                    <p class="prof-bio">
+                        Prof. Gildong Hong leads the AI & Robotics Laboratory at Sample University. His research focuses on the intersection of machine learning, robotics, and human-computer interaction, with the goal of building intelligent systems that can understand and interact with the physical world in a human-like manner.
+                        <br><br>
+                        Before joining Sample University in 2015, he was a postdoctoral researcher at MIT CSAIL and received his Ph.D. from Stanford University in 2013. His work has been published in top venues including NeurIPS, ICML, CVPR, and Nature Machine Intelligence.
+                    </p>
+                    <div class="prof-section-title">Research Interests</div>
+                    <div class="interest-tags">
+                        <span class="interest-tag">Machine Learning</span>
+                        <span class="interest-tag">Robot Learning</span>
+                        <span class="interest-tag">Computer Vision</span>
+                        <span class="interest-tag">Foundation Models</span>
+                        <span class="interest-tag">Human-Robot Interaction</span>
+                        <span class="interest-tag">Embodied AI</span>
+                    </div>
+                    <div class="prof-section-title">Education</div>
+                    <ul class="edu-list">
+                        <li>
+                            <span class="edu-year">2013</span>
+                            <div class="edu-content">
+                                <strong>Ph.D. in Computer Science</strong>
+                                <span>Stanford University, USA &nbsp;·&nbsp; Advisor: Prof. Jane Smith</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="edu-year">2008</span>
+                            <div class="edu-content">
+                                <strong>M.S. in Computer Science</strong>
+                                <span>KAIST, Republic of Korea</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="edu-year">2006</span>
+                            <div class="edu-content">
+                                <strong>B.S. in Computer Science & Mathematics</strong>
+                                <span>Seoul National University, Republic of Korea</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <br>
+                    <div class="prof-section-title">Selected Awards & Honors</div>
+                    <ul class="edu-list">
+                        <li>
+                            <span class="edu-year">2026</span>
+                            <div class="edu-content">
+                                <strong>Best Paper Award</strong>
+                                <span>NeurIPS 2026, Vancouver</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="edu-year">2023</span>
+                            <div class="edu-content">
+                                <strong>Young Researcher Award</strong>
+                                <span>Korean Institute of Information Scientists and Engineers (KIISE)</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="edu-year">2021</span>
+                            <div class="edu-content">
+                                <strong>Excellence in Teaching Award</strong>
+                                <span>Sample University</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="edu-year">2019</span>
+                            <div class="edu-content">
+                                <strong>Outstanding Paper Award</strong>
+                                <span>ICRA 2019, Montreal</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <span>© 2026 Sample AI & Robotics Lab.</span>
+                <span>Built with ♥ for science</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     RESEARCH
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-research">
+    <div class="page-hero">
+        <div class="container">
+            <div class="breadcrumb">Home <span>›</span> Research</div>
+            <h1>Research</h1>
+            <p>Exploring the frontiers of AI, robotics, and intelligent systems</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="research-grid">
+                <div class="research-card">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a3060, #1a5fa0);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">🤖</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>Embodied AI & Robotic Manipulation</h3>
+                        <p>We develop learning algorithms that enable robots to acquire dexterous manipulation skills from minimal demonstrations. Our approach combines imitation learning, reinforcement learning, and world models to bridge the gap between simulation and real-world deployment. Key challenges include contact-rich manipulation, deformable object handling, and long-horizon task planning.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">Robot Learning</span>
+                            <span class="research-tag">Sim-to-Real Transfer</span>
+                            <span class="research-tag">Dexterous Manipulation</span>
+                            <span class="research-tag">Imitation Learning</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="research-card">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #1a0a40, #4a1a8a);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">🧠</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>Foundation Models for Scientific Discovery</h3>
+                        <p>We adapt and fine-tune large foundation models for scientific tasks including drug discovery, protein structure prediction, and materials design. By developing domain-specific pre-training strategies and evaluation benchmarks, we aim to accelerate the pace of scientific breakthroughs using AI as a research partner.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">Large Language Models</span>
+                            <span class="research-tag">Drug Discovery</span>
+                            <span class="research-tag">Protein Folding</span>
+                            <span class="research-tag">Scientific ML</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="research-card">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a3030, #0a6050);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">👁️</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>3D Scene Understanding & Generation</h3>
+                        <p>Our research addresses the fundamental challenge of 3D visual understanding from sparse observations. We develop novel neural representations for scenes and objects that enable robots and autonomous systems to build accurate world models from monocular video, enabling downstream tasks like navigation, manipulation, and scene editing.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">Neural Radiance Fields</span>
+                            <span class="research-tag">3D Gaussian Splatting</span>
+                            <span class="research-tag">SLAM</span>
+                            <span class="research-tag">Generative Models</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="research-card">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #3a1a00, #8a4a00);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">🤝</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>Human-Robot Collaboration</h3>
+                        <p>We study how robots and humans can effectively collaborate on shared tasks in unstructured environments. Our research spans intent prediction, shared autonomy, and natural language interfaces for robot control. We conduct user studies to understand human factors and design robot behaviors that feel natural, safe, and trustworthy.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">Human-Robot Interaction</span>
+                            <span class="research-tag">Shared Autonomy</span>
+                            <span class="research-tag">NLP for Robotics</span>
+                            <span class="research-tag">User Studies</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="research-card">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a2a0a, #1a5a2a);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">🌐</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>Multi-Agent Systems & Emergent Behavior</h3>
+                        <p>We investigate how multiple AI agents can coordinate to solve complex tasks that are beyond the reach of any single agent. Using multi-agent reinforcement learning and game-theoretic approaches, we study emergent communication, cooperative and competitive behaviors, and scalable coordination mechanisms for swarm robotics.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">Multi-Agent RL</span>
+                            <span class="research-tag">Swarm Robotics</span>
+                            <span class="research-tag">Game Theory</span>
+                            <span class="research-tag">Emergent Communication</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="research-card">
+                    <div class="research-abstract" style="background: linear-gradient(135deg, #2a0a1a, #6a1a4a);">
+                        <span class="research-abstract-label">Active</span>
+                        <span class="research-abstract-emoji">⚡</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>Efficient & Trustworthy AI</h3>
+                        <p>As AI systems are deployed in safety-critical applications, efficiency and trustworthiness become paramount. We research model compression, uncertainty quantification, and robustness verification techniques that make deep learning models more reliable, interpretable, and deployable on resource-constrained hardware.</p>
+                        <div class="research-tags">
+                            <span class="research-tag">Model Compression</span>
+                            <span class="research-tag">Uncertainty Quantification</span>
+                            <span class="research-tag">Robustness</span>
+                            <span class="research-tag">Interpretability</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <span>© 2026 Sample AI & Robotics Lab.</span>
+                <span>Built with ♥ for science</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PUBLICATION
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-publication">
+    <div class="page-hero">
+        <div class="container">
+            <div class="breadcrumb">Home <span>›</span> Publication</div>
+            <h1>Publications</h1>
+            <p>Peer-reviewed research articles and conference papers</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterPubs(this,'all')">All</button>
+                <button class="filter-btn" onclick="filterPubs(this,'journal')">Journal</button>
+                <button class="filter-btn" onclick="filterPubs(this,'conference')">Conference</button>
+                <button class="filter-btn" onclick="filterPubs(this,'robotics')">Robotics</button>
+                <button class="filter-btn" onclick="filterPubs(this,'ml')">Machine Learning</button>
+            </div>
+
+            <!-- 2026 -->
+            <div class="pub-year-group">
+                <div class="pub-year-header">
+                    <span class="pub-year-label">2026</span>
+                    <div class="pub-year-line"></div>
+                </div>
+                <ul class="pub-list">
+                    <li class="pub-item">
+                        <span class="pub-number">1</span>
+                        <div class="pub-content">
+                            <div class="pub-title">Self-Supervised Representation Learning for Robotic Manipulation via Cross-Modal Contrastive Objectives</div>
+                            <div class="pub-authors"><strong>Gildong Hong</strong>, Jisoo Kim, Minjae Park, Soyeon Lee</div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">NeurIPS 2026 (Oral Presentation)</span>
+                                <span class="pub-badge best">🏆 Best Paper</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Code</a>
+                                <a class="pub-link">Project Page</a>
+                                <a class="pub-link">Video</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pub-item">
+                        <span class="pub-number">2</span>
+                        <div class="pub-content">
+                            <div class="pub-title">Multi-Modal Language Models for Scientific Knowledge Extraction and Hypothesis Generation</div>
+                            <div class="pub-authors"><strong>Gildong Hong</strong>, Hyunwoo Shin, Eunji Cho</div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">Nature Machine Intelligence, 2026</span>
+                                <span class="pub-badge nature">Journal</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Code</a>
+                                <a class="pub-link">Dataset</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 2025 -->
+            <div class="pub-year-group">
+                <div class="pub-year-header">
+                    <span class="pub-year-label">2025</span>
+                    <div class="pub-year-line"></div>
+                </div>
+                <ul class="pub-list">
+                    <li class="pub-item">
+                        <span class="pub-number">3</span>
+                        <div class="pub-content">
+                            <div class="pub-title">3D Gaussian Splatting for Dynamic Scene Reconstruction from Monocular Video</div>
+                            <div class="pub-authors">Jisoo Kim, <strong>Gildong Hong</strong></div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">CVPR 2025</span>
+                                <span class="pub-badge ieee">Conference</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Code</a>
+                                <a class="pub-link">Demo</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pub-item">
+                        <span class="pub-number">4</span>
+                        <div class="pub-content">
+                            <div class="pub-title">Emergent Communication in Multi-Agent Reinforcement Learning with Structured World Models</div>
+                            <div class="pub-authors">Minjae Park, Soyeon Lee, <strong>Gildong Hong</strong></div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">ICML 2025</span>
+                                <span class="pub-badge acm">Conference</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Code</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pub-item">
+                        <span class="pub-number">5</span>
+                        <div class="pub-content">
+                            <div class="pub-title">Efficient Neural Network Compression via Structured Pruning and Knowledge Distillation for Edge Robotics</div>
+                            <div class="pub-authors">Eunji Cho, Hyunwoo Shin, <strong>Gildong Hong</strong></div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">IEEE Transactions on Neural Networks and Learning Systems, 2025</span>
+                                <span class="pub-badge ieee">Journal</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Code</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 2024 -->
+            <div class="pub-year-group">
+                <div class="pub-year-header">
+                    <span class="pub-year-label">2024</span>
+                    <div class="pub-year-line"></div>
+                </div>
+                <ul class="pub-list">
+                    <li class="pub-item">
+                        <span class="pub-number">6</span>
+                        <div class="pub-content">
+                            <div class="pub-title">Language-Conditioned Robot Manipulation via Vision-Language Pre-training and Hierarchical Planning</div>
+                            <div class="pub-authors"><strong>Gildong Hong</strong>, Jisoo Kim, Taehyun Ryu</div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">RSS 2024 (Robotics: Science and Systems)</span>
+                                <span class="pub-badge ieee">Conference</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Video</a>
+                                <a class="pub-link">Website</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pub-item">
+                        <span class="pub-number">7</span>
+                        <div class="pub-content">
+                            <div class="pub-title">Human-Guided Reinforcement Learning for Safe Robotic Exploration in Unstructured Environments</div>
+                            <div class="pub-authors">Soyeon Lee, Minjae Park, <strong>Gildong Hong</strong></div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">IROS 2024</span>
+                                <span class="pub-badge ieee">Conference</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Code</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pub-item">
+                        <span class="pub-number">8</span>
+                        <div class="pub-content">
+                            <div class="pub-title">Uncertainty-Aware Sim-to-Real Transfer for Contact-Rich Manipulation Tasks</div>
+                            <div class="pub-authors">Jiwon Han, <strong>Gildong Hong</strong>, Jisoo Kim</div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">International Journal of Robotics Research (IJRR), 2024</span>
+                                <span class="pub-badge science">Journal</span>
+                            </div>
+                            <div class="pub-links">
+                                <a class="pub-link">PDF</a>
+                                <a class="pub-link">Code</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <span>© 2026 Sample AI & Robotics Lab.</span>
+                <span>Built with ♥ for science</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     MEMBERS
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-members">
+    <div class="page-hero">
+        <div class="container">
+            <div class="breadcrumb">Home <span>›</span> Members</div>
+            <h1>Members</h1>
+            <p>The people who make our research possible</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="members-section-title">Ph.D. Students</div>
+            <div class="members-grid">
+                <div class="member-card">
+                    <div class="member-photo">👩‍🎓</div>
+                    <div class="member-body">
+                        <div class="member-role">Ph.D. · 4th Year</div>
+                        <div class="member-name">김지수 (Jisoo Kim)</div>
+                        <p class="member-desc">B.S. Seoul National University, 2022<br>Robot manipulation · 3D scene understanding</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-photo">👨‍🎓</div>
+                    <div class="member-body">
+                        <div class="member-role">Ph.D. · 3rd Year</div>
+                        <div class="member-name">박민재 (Minjae Park)</div>
+                        <p class="member-desc">B.S. KAIST, 2023<br>Multi-agent systems · Emergent communication</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-photo">👩‍🎓</div>
+                    <div class="member-body">
+                        <div class="member-role">Ph.D. · 2nd Year</div>
+                        <div class="member-name">이소연 (Soyeon Lee)</div>
+                        <p class="member-desc">B.S. Yonsei University, 2024<br>Human-robot interaction · Shared autonomy</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-photo">👨‍🎓</div>
+                    <div class="member-body">
+                        <div class="member-role">Ph.D. · 1st Year</div>
+                        <div class="member-name">신현우 (Hyunwoo Shin)</div>
+                        <p class="member-desc">B.S. POSTECH, 2025<br>Foundation models · Scientific AI</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="members-section-title">M.S. Students</div>
+            <div class="members-grid">
+                <div class="member-card">
+                    <div class="member-photo">👩‍💻</div>
+                    <div class="member-body">
+                        <div class="member-role">M.S. · 2nd Year</div>
+                        <div class="member-name">조은지 (Eunji Cho)</div>
+                        <p class="member-desc">B.S. KAIST, 2024<br>Model compression · Efficient AI</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-photo">👨‍💻</div>
+                    <div class="member-body">
+                        <div class="member-role">M.S. · 1st Year</div>
+                        <div class="member-name">류태현 (Taehyun Ryu)</div>
+                        <p class="member-desc">B.S. UNIST, 2025<br>Language-conditioned robot control</p>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <div class="member-photo">👩‍💻</div>
+                    <div class="member-body">
+                        <div class="member-role">M.S. · 1st Year</div>
+                        <div class="member-name">정다영 (Dayoung Jung)</div>
+                        <p class="member-desc">B.S. Sungkyunkwan Univ., 2025<br>Computer vision · Video understanding</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="members-section-title">Research Staff & Visiting</div>
+            <div class="members-grid" style="grid-template-columns: repeat(4,1fr);">
+                <div class="member-card">
+                    <div class="member-photo">🧑‍🔬</div>
+                    <div class="member-body">
+                        <div class="member-role">Postdoctoral Researcher</div>
+                        <div class="member-name">한지원 (Jiwon Han)</div>
+                        <p class="member-desc">Ph.D. ETH Zurich, 2024<br>Sim-to-real transfer · Locomotion</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="members-section-title">Alumni</div>
+            <div class="alumni-grid">
+                <div class="member-card-mini">
+                    <div class="member-mini-photo">🎓</div>
+                    <div>
+                        <div class="member-mini-name">오성준 (Sungjun Oh)</div>
+                        <div class="member-mini-info">Ph.D. 2024 → Google DeepMind</div>
+                    </div>
+                </div>
+                <div class="member-card-mini">
+                    <div class="member-mini-photo">🎓</div>
+                    <div>
+                        <div class="member-mini-name">윤채린 (Chaerin Yoon)</div>
+                        <div class="member-mini-info">M.S. 2024 → Samsung Research</div>
+                    </div>
+                </div>
+                <div class="member-card-mini">
+                    <div class="member-mini-photo">🎓</div>
+                    <div>
+                        <div class="member-mini-name">임도현 (Dohyun Lim)</div>
+                        <div class="member-mini-info">Ph.D. 2023 → MIT Postdoc</div>
+                    </div>
+                </div>
+                <div class="member-card-mini">
+                    <div class="member-mini-photo">🎓</div>
+                    <div>
+                        <div class="member-mini-name">강나래 (Narae Kang)</div>
+                        <div class="member-mini-info">M.S. 2023 → LG AI Research</div>
+                    </div>
+                </div>
+                <div class="member-card-mini">
+                    <div class="member-mini-photo">🎓</div>
+                    <div>
+                        <div class="member-mini-name">배지훈 (Jihoon Bae)</div>
+                        <div class="member-mini-info">Ph.D. 2022 → Naver Labs</div>
+                    </div>
+                </div>
+                <div class="member-card-mini">
+                    <div class="member-mini-photo">🎓</div>
+                    <div>
+                        <div class="member-mini-name">최예슬 (Yeseul Choi)</div>
+                        <div class="member-mini-info">M.S. 2022 → Kakao Brain</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <span>© 2026 Sample AI & Robotics Lab.</span>
+                <span>Built with ♥ for science</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     NEWS
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-news">
+    <div class="page-hero">
+        <div class="container">
+            <div class="breadcrumb">Home <span>›</span> News</div>
+            <h1>News & Gallery</h1>
+            <p>Latest happenings from the lab</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="news-layout">
+                <div class="news-main">
+                    <div class="news-item">
+                        <div class="news-image">🏆</div>
+                        <div>
+                            <div class="news-item-meta">
+                                <span class="news-type-tag">Award</span>
+                                <span class="news-date">Jun 15, 2026</span>
+                            </div>
+                            <h3>Best Paper Award at NeurIPS 2026</h3>
+                            <p>We are thrilled to announce that our paper on self-supervised representation learning for robotic manipulation received the Best Paper Award at NeurIPS 2026, held in Vancouver, Canada. This recognition reflects the hard work and dedication of all lab members involved over the past two years.</p>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-image">📄</div>
+                        <div>
+                            <div class="news-item-meta">
+                                <span class="news-type-tag">Publication</span>
+                                <span class="news-date">May 3, 2026</span>
+                            </div>
+                            <h3>New Paper Accepted at Nature Machine Intelligence</h3>
+                            <p>Our paper "Multi-Modal Language Models for Scientific Knowledge Extraction and Hypothesis Generation" has been accepted for publication in Nature Machine Intelligence, demonstrating how LLMs can accelerate scientific discovery.</p>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-image">🎓</div>
+                        <div>
+                            <div class="news-item-meta">
+                                <span class="news-type-tag">People</span>
+                                <span class="news-date">Apr 1, 2026</span>
+                            </div>
+                            <h3>Welcome New Lab Members!</h3>
+                            <p>We are delighted to welcome three new PhD students and one MS student joining our lab in Spring 2026. They bring expertise in machine learning, computer vision, and robotics, and we look forward to exciting research directions ahead.</p>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-image">🎤</div>
+                        <div>
+                            <div class="news-item-meta">
+                                <span class="news-type-tag">Talk</span>
+                                <span class="news-date">Mar 12, 2026</span>
+                            </div>
+                            <h3>Invited Talk at KAIST AI Colloquium</h3>
+                            <p>Prof. Hong gave an invited talk on "Bridging Simulation and Reality in Robot Learning" at the KAIST AI Colloquium Series, attended by over 200 researchers and sparking lively discussion on the future of embodied AI.</p>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-image">🤝</div>
+                        <div>
+                            <div class="news-item-meta">
+                                <span class="news-type-tag">Grant</span>
+                                <span class="news-date">Jan 20, 2026</span>
+                            </div>
+                            <h3>NRF Research Grant Awarded — ₩500M</h3>
+                            <p>The lab has been awarded a ₩500M research grant from the National Research Foundation of Korea (NRF) for our project on "Trustworthy AI Systems for Safety-Critical Robotics." This funding will support two PhD students for three years.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-sidebar">
+                    <!-- ── GOOGLE PHOTOS GALLERY ── -->
+                    <div class="sidebar-widget">
+                        <h3>📸 Photo Gallery</h3>
+                        <div id="gallery-grid" class="gallery-grid">
+                            <div class="gallery-loading">사진 불러오는 중…</div>
+                        </div>
+                        <!-- 설정 안내 (배포 후 제거) -->
+                        <p style="font-size:0.7rem;color:var(--gray-400);margin-top:0.75rem;line-height:1.5;">
+                            ⚙️ <strong>설정 방법:</strong> 아래 <code>DRIVE_FOLDER_ID</code>와 <code>DRIVE_API_KEY</code>를 실제 값으로 교체하세요.
+                        </p>
+                    </div>
+
+                    <!-- ── GOOGLE CALENDAR ── -->
+                    <div class="sidebar-widget">
+                        <h3>📅 Upcoming Events</h3>
+                        <div id="calendar-events">
+                            <div class="calendar-loading">일정 불러오는 중…</div>
+                        </div>
+                        <p style="font-size:0.7rem;color:var(--gray-400);margin-top:0.75rem;line-height:1.5;">
+                            ⚙️ <strong>설정 방법:</strong> 아래 <code>CALENDAR_ID</code>와 <code>CAL_API_KEY</code>를 실제 값으로 교체하세요.
+                        </p>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3>🔔 Quick Links</h3>
+                        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                            <a class="prof-link" style="font-size:0.8rem;">📋 &nbsp;Join Our Lab</a>
+                            <a class="prof-link" style="font-size:0.8rem;">🔗 &nbsp;Google Scholar</a>
+                            <a class="prof-link" style="font-size:0.8rem;">🐱 &nbsp;GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <span>© 2026 Sample AI & Robotics Lab.</span>
+                <span>Built with ♥ for science</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // ── 여기에 본인 키와 ID를 입력하세요 ──────────────────────────────
+    const DRIVE_API_KEY   = 'YOUR_GOOGLE_API_KEY';      // Google Cloud API 키
+    const DRIVE_FOLDER_ID = 'YOUR_GOOGLE_DRIVE_FOLDER_ID'; // 공개 드라이브 폴더 ID
+    const CALENDAR_ID     = 'YOUR_CALENDAR_ID@group.calendar.google.com'; // Google 캘린더 ID
+    const CAL_API_KEY     = 'YOUR_GOOGLE_API_KEY';      // 위 API 키와 동일하게 사용 가능
+    // ────────────────────────────────────────────────────────────────
+
+    // ── PAGE NAVIGATION ──
+    function showPage(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        document.getElementById('page-' + page).classList.add('active');
+        document.getElementById('nav-' + page).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (page === 'news') {
+            loadGallery();
+            loadCalendar();
+        }
+    }
+
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    function filterPubs(btn, type) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    // ── GOOGLE DRIVE PHOTO GALLERY ──
+    let galleryLoaded = false;
+    async function loadGallery() {
+        if (galleryLoaded) return;
+        const grid = document.getElementById('gallery-grid');
+        if (DRIVE_FOLDER_ID === 'YOUR_GOOGLE_DRIVE_FOLDER_ID') {
+            grid.innerHTML = `<div class="gallery-loading" style="grid-column:1/-1;">
+                ⚙️ <code>DRIVE_FOLDER_ID</code>를 설정하면<br>Google Drive 사진이 자동으로 표시됩니다.</div>`;
+            return;
+        }
+        try {
+            const url = `https://www.googleapis.com/drive/v3/files`
+                + `?q='${DRIVE_FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'`
+                + `&key=${DRIVE_API_KEY}&fields=files(id,name)&pageSize=9&orderBy=createdTime+desc`;
+            const res  = await fetch(url);
+            const data = await res.json();
+            if (!data.files || data.files.length === 0) {
+                grid.innerHTML = `<div class="gallery-loading" style="grid-column:1/-1;">폴더에 이미지가 없습니다.</div>`;
+                return;
+            }
+            grid.innerHTML = data.files.map(f => `
+                <div class="gallery-photo" onclick="window.open('https://drive.google.com/file/d/${f.id}/view','_blank')">
+                    <img src="https://drive.google.com/thumbnail?id=${f.id}&sz=w300" alt="${f.name}" loading="lazy">
+                </div>`).join('');
+            galleryLoaded = true;
+        } catch (e) {
+            grid.innerHTML = `<div class="cal-error" style="grid-column:1/-1;">사진을 불러오지 못했습니다.<br>API 키 또는 폴더 공개 설정을 확인하세요.</div>`;
+        }
+    }
+
+    // ── GOOGLE CALENDAR EVENTS ──
+    let calendarLoaded = false;
+    async function loadCalendar() {
+        if (calendarLoaded) return;
+        const container = document.getElementById('calendar-events');
+        if (CALENDAR_ID.startsWith('YOUR_')) {
+            container.innerHTML = `<div class="cal-error">
+                ⚙️ <code>CALENDAR_ID</code>를 설정하면<br>Google Calendar 일정이 자동으로 표시됩니다.</div>`;
+            return;
+        }
+        try {
+            const now = new Date().toISOString();
+            const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events`
+                + `?key=${CAL_API_KEY}&orderBy=startTime&singleEvents=true`
+                + `&timeMin=${now}&maxResults=5&fields=items(summary,start,location)`;
+            const res  = await fetch(url);
+            const data = await res.json();
+            if (!data.items || data.items.length === 0) {
+                container.innerHTML = `<div class="cal-error">예정된 이벤트가 없습니다.</div>`;
+                return;
+            }
+            container.innerHTML = data.items.map(ev => {
+                const dt = ev.start.dateTime || ev.start.date;
+                const d  = new Date(dt);
+                const dateStr = d.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', year: 'numeric' });
+                return `<div class="cal-event">
+                    <div class="cal-event-date">${dateStr}</div>
+                    <div class="cal-event-title">${ev.summary}</div>
+                    ${ev.location ? `<div class="cal-event-location">📍 ${ev.location}</div>` : ''}
+                </div>`;
+            }).join('');
+            calendarLoaded = true;
+        } catch (e) {
+            container.innerHTML = `<div class="cal-error">일정을 불러오지 못했습니다.<br>API 키 또는 캘린더 공개 설정을 확인하세요.</div>`;
+        }
+    }
+</script>
+</body>
+</html>
