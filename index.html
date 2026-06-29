@@ -630,6 +630,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .page.active > * { animation: fadeUp 0.45s ease both; }
+
+        /* Google Sheets 로딩 메시지 */
+        .loading-msg {
+            text-align: center;
+            color: var(--gray-400);
+            padding: 3rem 1rem;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
@@ -1016,159 +1024,8 @@
                 <button class="filter-btn" onclick="filterPubs(this,'ml')">Machine Learning</button>
             </div>
 
-            <!-- 2026 -->
-            <div class="pub-year-group">
-                <div class="pub-year-header">
-                    <span class="pub-year-label">2026</span>
-                    <div class="pub-year-line"></div>
-                </div>
-                <ul class="pub-list">
-                    <li class="pub-item">
-                        <span class="pub-number">1</span>
-                        <div class="pub-content">
-                            <div class="pub-title">Self-Supervised Representation Learning for Robotic Manipulation via Cross-Modal Contrastive Objectives</div>
-                            <div class="pub-authors"><strong>Gildong Hong</strong>, Jisoo Kim, Minjae Park, Soyeon Lee</div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">NeurIPS 2026 (Oral Presentation)</span>
-                                <span class="pub-badge best">🏆 Best Paper</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Code</a>
-                                <a class="pub-link">Project Page</a>
-                                <a class="pub-link">Video</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="pub-item">
-                        <span class="pub-number">2</span>
-                        <div class="pub-content">
-                            <div class="pub-title">Multi-Modal Language Models for Scientific Knowledge Extraction and Hypothesis Generation</div>
-                            <div class="pub-authors"><strong>Gildong Hong</strong>, Hyunwoo Shin, Eunji Cho</div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">Nature Machine Intelligence, 2026</span>
-                                <span class="pub-badge nature">Journal</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Code</a>
-                                <a class="pub-link">Dataset</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 2025 -->
-            <div class="pub-year-group">
-                <div class="pub-year-header">
-                    <span class="pub-year-label">2025</span>
-                    <div class="pub-year-line"></div>
-                </div>
-                <ul class="pub-list">
-                    <li class="pub-item">
-                        <span class="pub-number">3</span>
-                        <div class="pub-content">
-                            <div class="pub-title">3D Gaussian Splatting for Dynamic Scene Reconstruction from Monocular Video</div>
-                            <div class="pub-authors">Jisoo Kim, <strong>Gildong Hong</strong></div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">CVPR 2025</span>
-                                <span class="pub-badge ieee">Conference</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Code</a>
-                                <a class="pub-link">Demo</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="pub-item">
-                        <span class="pub-number">4</span>
-                        <div class="pub-content">
-                            <div class="pub-title">Emergent Communication in Multi-Agent Reinforcement Learning with Structured World Models</div>
-                            <div class="pub-authors">Minjae Park, Soyeon Lee, <strong>Gildong Hong</strong></div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">ICML 2025</span>
-                                <span class="pub-badge acm">Conference</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Code</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="pub-item">
-                        <span class="pub-number">5</span>
-                        <div class="pub-content">
-                            <div class="pub-title">Efficient Neural Network Compression via Structured Pruning and Knowledge Distillation for Edge Robotics</div>
-                            <div class="pub-authors">Eunji Cho, Hyunwoo Shin, <strong>Gildong Hong</strong></div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">IEEE Transactions on Neural Networks and Learning Systems, 2025</span>
-                                <span class="pub-badge ieee">Journal</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Code</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 2024 -->
-            <div class="pub-year-group">
-                <div class="pub-year-header">
-                    <span class="pub-year-label">2024</span>
-                    <div class="pub-year-line"></div>
-                </div>
-                <ul class="pub-list">
-                    <li class="pub-item">
-                        <span class="pub-number">6</span>
-                        <div class="pub-content">
-                            <div class="pub-title">Language-Conditioned Robot Manipulation via Vision-Language Pre-training and Hierarchical Planning</div>
-                            <div class="pub-authors"><strong>Gildong Hong</strong>, Jisoo Kim, Taehyun Ryu</div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">RSS 2024 (Robotics: Science and Systems)</span>
-                                <span class="pub-badge ieee">Conference</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Video</a>
-                                <a class="pub-link">Website</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="pub-item">
-                        <span class="pub-number">7</span>
-                        <div class="pub-content">
-                            <div class="pub-title">Human-Guided Reinforcement Learning for Safe Robotic Exploration in Unstructured Environments</div>
-                            <div class="pub-authors">Soyeon Lee, Minjae Park, <strong>Gildong Hong</strong></div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">IROS 2024</span>
-                                <span class="pub-badge ieee">Conference</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Code</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="pub-item">
-                        <span class="pub-number">8</span>
-                        <div class="pub-content">
-                            <div class="pub-title">Uncertainty-Aware Sim-to-Real Transfer for Contact-Rich Manipulation Tasks</div>
-                            <div class="pub-authors">Jiwon Han, <strong>Gildong Hong</strong>, Jisoo Kim</div>
-                            <div class="pub-venue">
-                                <span class="pub-journal">International Journal of Robotics Research (IJRR), 2024</span>
-                                <span class="pub-badge science">Journal</span>
-                            </div>
-                            <div class="pub-links">
-                                <a class="pub-link">PDF</a>
-                                <a class="pub-link">Code</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="pub-container">
+                <p class="loading-msg">논문 불러오는 중…</p>
             </div>
         </div>
     </section>
@@ -1195,126 +1052,8 @@
     </div>
     <section>
         <div class="container">
-            <div class="members-section-title">Ph.D. Students</div>
-            <div class="members-grid">
-                <div class="member-card">
-                    <div class="member-photo">👩‍🎓</div>
-                    <div class="member-body">
-                        <div class="member-role">Ph.D. · 4th Year</div>
-                        <div class="member-name">김지수 (Jisoo Kim)</div>
-                        <p class="member-desc">B.S. Seoul National University, 2022<br>Robot manipulation · 3D scene understanding</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-photo">👨‍🎓</div>
-                    <div class="member-body">
-                        <div class="member-role">Ph.D. · 3rd Year</div>
-                        <div class="member-name">박민재 (Minjae Park)</div>
-                        <p class="member-desc">B.S. KAIST, 2023<br>Multi-agent systems · Emergent communication</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-photo">👩‍🎓</div>
-                    <div class="member-body">
-                        <div class="member-role">Ph.D. · 2nd Year</div>
-                        <div class="member-name">이소연 (Soyeon Lee)</div>
-                        <p class="member-desc">B.S. Yonsei University, 2024<br>Human-robot interaction · Shared autonomy</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-photo">👨‍🎓</div>
-                    <div class="member-body">
-                        <div class="member-role">Ph.D. · 1st Year</div>
-                        <div class="member-name">신현우 (Hyunwoo Shin)</div>
-                        <p class="member-desc">B.S. POSTECH, 2025<br>Foundation models · Scientific AI</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="members-section-title">M.S. Students</div>
-            <div class="members-grid">
-                <div class="member-card">
-                    <div class="member-photo">👩‍💻</div>
-                    <div class="member-body">
-                        <div class="member-role">M.S. · 2nd Year</div>
-                        <div class="member-name">조은지 (Eunji Cho)</div>
-                        <p class="member-desc">B.S. KAIST, 2024<br>Model compression · Efficient AI</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-photo">👨‍💻</div>
-                    <div class="member-body">
-                        <div class="member-role">M.S. · 1st Year</div>
-                        <div class="member-name">류태현 (Taehyun Ryu)</div>
-                        <p class="member-desc">B.S. UNIST, 2025<br>Language-conditioned robot control</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-photo">👩‍💻</div>
-                    <div class="member-body">
-                        <div class="member-role">M.S. · 1st Year</div>
-                        <div class="member-name">정다영 (Dayoung Jung)</div>
-                        <p class="member-desc">B.S. Sungkyunkwan Univ., 2025<br>Computer vision · Video understanding</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="members-section-title">Research Staff & Visiting</div>
-            <div class="members-grid" style="grid-template-columns: repeat(4,1fr);">
-                <div class="member-card">
-                    <div class="member-photo">🧑‍🔬</div>
-                    <div class="member-body">
-                        <div class="member-role">Postdoctoral Researcher</div>
-                        <div class="member-name">한지원 (Jiwon Han)</div>
-                        <p class="member-desc">Ph.D. ETH Zurich, 2024<br>Sim-to-real transfer · Locomotion</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="members-section-title">Alumni</div>
-            <div class="alumni-grid">
-                <div class="member-card-mini">
-                    <div class="member-mini-photo">🎓</div>
-                    <div>
-                        <div class="member-mini-name">오성준 (Sungjun Oh)</div>
-                        <div class="member-mini-info">Ph.D. 2024 → Google DeepMind</div>
-                    </div>
-                </div>
-                <div class="member-card-mini">
-                    <div class="member-mini-photo">🎓</div>
-                    <div>
-                        <div class="member-mini-name">윤채린 (Chaerin Yoon)</div>
-                        <div class="member-mini-info">M.S. 2024 → Samsung Research</div>
-                    </div>
-                </div>
-                <div class="member-card-mini">
-                    <div class="member-mini-photo">🎓</div>
-                    <div>
-                        <div class="member-mini-name">임도현 (Dohyun Lim)</div>
-                        <div class="member-mini-info">Ph.D. 2023 → MIT Postdoc</div>
-                    </div>
-                </div>
-                <div class="member-card-mini">
-                    <div class="member-mini-photo">🎓</div>
-                    <div>
-                        <div class="member-mini-name">강나래 (Narae Kang)</div>
-                        <div class="member-mini-info">M.S. 2023 → LG AI Research</div>
-                    </div>
-                </div>
-                <div class="member-card-mini">
-                    <div class="member-mini-photo">🎓</div>
-                    <div>
-                        <div class="member-mini-name">배지훈 (Jihoon Bae)</div>
-                        <div class="member-mini-info">Ph.D. 2022 → Naver Labs</div>
-                    </div>
-                </div>
-                <div class="member-card-mini">
-                    <div class="member-mini-photo">🎓</div>
-                    <div>
-                        <div class="member-mini-name">최예슬 (Yeseul Choi)</div>
-                        <div class="member-mini-info">M.S. 2022 → Kakao Brain</div>
-                    </div>
-                </div>
+            <div id="members-container">
+                <p class="loading-msg">멤버 정보 불러오는 중…</p>
             </div>
         </div>
     </section>
@@ -1342,64 +1081,9 @@
     <section>
         <div class="container">
             <div class="news-layout">
-                <div class="news-main">
-                    <div class="news-item">
-                        <div class="news-image">🏆</div>
-                        <div>
-                            <div class="news-item-meta">
-                                <span class="news-type-tag">Award</span>
-                                <span class="news-date">Jun 15, 2026</span>
-                            </div>
-                            <h3>Best Paper Award at NeurIPS 2026</h3>
-                            <p>We are thrilled to announce that our paper on self-supervised representation learning for robotic manipulation received the Best Paper Award at NeurIPS 2026, held in Vancouver, Canada. This recognition reflects the hard work and dedication of all lab members involved over the past two years.</p>
-                        </div>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-image">📄</div>
-                        <div>
-                            <div class="news-item-meta">
-                                <span class="news-type-tag">Publication</span>
-                                <span class="news-date">May 3, 2026</span>
-                            </div>
-                            <h3>New Paper Accepted at Nature Machine Intelligence</h3>
-                            <p>Our paper "Multi-Modal Language Models for Scientific Knowledge Extraction and Hypothesis Generation" has been accepted for publication in Nature Machine Intelligence, demonstrating how LLMs can accelerate scientific discovery.</p>
-                        </div>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-image">🎓</div>
-                        <div>
-                            <div class="news-item-meta">
-                                <span class="news-type-tag">People</span>
-                                <span class="news-date">Apr 1, 2026</span>
-                            </div>
-                            <h3>Welcome New Lab Members!</h3>
-                            <p>We are delighted to welcome three new PhD students and one MS student joining our lab in Spring 2026. They bring expertise in machine learning, computer vision, and robotics, and we look forward to exciting research directions ahead.</p>
-                        </div>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-image">🎤</div>
-                        <div>
-                            <div class="news-item-meta">
-                                <span class="news-type-tag">Talk</span>
-                                <span class="news-date">Mar 12, 2026</span>
-                            </div>
-                            <h3>Invited Talk at KAIST AI Colloquium</h3>
-                            <p>Prof. Hong gave an invited talk on "Bridging Simulation and Reality in Robot Learning" at the KAIST AI Colloquium Series, attended by over 200 researchers and sparking lively discussion on the future of embodied AI.</p>
-                        </div>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-image">🤝</div>
-                        <div>
-                            <div class="news-item-meta">
-                                <span class="news-type-tag">Grant</span>
-                                <span class="news-date">Jan 20, 2026</span>
-                            </div>
-                            <h3>NRF Research Grant Awarded — ₩500M</h3>
-                            <p>The lab has been awarded a ₩500M research grant from the National Research Foundation of Korea (NRF) for our project on "Trustworthy AI Systems for Safety-Critical Robotics." This funding will support two PhD students for three years.</p>
-                        </div>
-                    </div>
+                <div class="news-main" id="news-main">
+                    <p class="loading-msg">소식 불러오는 중…</p>
                 </div>
-
                 <div class="news-sidebar">
                     <!-- ── GOOGLE PHOTOS GALLERY ── -->
                     <div class="sidebar-widget">
@@ -1454,6 +1138,211 @@
     const CAL_API_KEY     = 'YOUR_GOOGLE_API_KEY';      // 위 API 키와 동일하게 사용 가능
     // ────────────────────────────────────────────────────────────────
 
+    // ── Google Sheets CMS ─────────────────────────────────────────────
+    // 아래 SHEET_ID를 본인 구글 시트 ID로 교체하세요.
+    // (URL: docs.google.com/spreadsheets/d/[SHEET_ID]/edit)
+    // 각 탭(Publications, Members, News)을 '웹에 게시'하면 자동으로 업데이트됩니다.
+    const SHEET_ID = '2PACX-1vTLnV8cXDHtyDGyuCmncpYVP2IaO8nYRXqjrK4Kc_EosnzR5zgPXMoObPTmzF6VOE94jro4DI18BUkQ';
+    // ────────────────────────────────────────────────────────────────
+
+    // Google Sheets 데이터 로드 (gviz setResponse 인터셉트 방식)
+    // — fetch 없이 script 태그만 사용, file:// 로컬에서도 작동
+    function fetchSheet(sheetName) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            let settled = false;
+
+            function done(rows) {
+                if (settled) return;
+                settled = true;
+                try { document.head.removeChild(script); } catch(e) {}
+                resolve(rows);
+            }
+            function fail(msg) {
+                if (settled) return;
+                settled = true;
+                try { document.head.removeChild(script); } catch(e) {}
+                reject(new Error(msg));
+            }
+
+            // gviz는 항상 google.visualization.Query.setResponse(json) 를 호출
+            window.google = window.google || {};
+            window.google.visualization = window.google.visualization || {};
+            window.google.visualization.Query = window.google.visualization.Query || {};
+            window.google.visualization.Query.setResponse = function(json) {
+                if (json.status === 'error') {
+                    fail('SHEET_ERROR: ' + (json.errors?.[0]?.message || '알 수 없는 오류'));
+                    return;
+                }
+                if (!json.table || !json.table.rows) { done([]); return; }
+                const cols = json.table.cols.map(c => c.label);
+                const rows = json.table.rows
+                    .filter(row => row.c && row.c.some(c => c?.v != null))
+                    .map(row => Object.fromEntries(cols.map((col, i) => [col, row.c[i]?.v ?? ''])));
+                done(rows);
+            };
+
+            // 10초 타임아웃
+            const timer = setTimeout(() => fail('TIMEOUT'), 10000);
+            script.onload = () => clearTimeout(timer);
+
+            script.onerror = () => {
+                clearTimeout(timer);
+                // script.onerror = 시트가 비공개이거나 네트워크 문제
+                fail('LOAD_FAIL');
+            };
+
+            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`
+                + `?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+            document.head.appendChild(script);
+        });
+    }
+    let pubsLoaded = false;
+    async function loadPublications() {
+        if (pubsLoaded) return;
+        const container = document.querySelector('.pub-container');
+        if (SHEET_ID === 'YOUR_SHEET_ID_HERE') {
+            container.innerHTML = '<p style="color:var(--gray-400);text-align:center;padding:2rem;">⚙️ <code>SHEET_ID</code>를 설정하면 Google Sheets에서 자동으로 불러옵니다.</p>';
+            return;
+        }
+        container.innerHTML = '<p class="loading-msg">논문 불러오는 중…</p>';
+        try {
+            const rows = await fetchSheet('Publications');
+            const byYear = {};
+            rows.forEach(r => { const y = r.Year || '기타'; if (!byYear[y]) byYear[y] = []; byYear[y].push(r); });
+            const years = Object.keys(byYear).sort((a, b) => b - a);
+            let num = 1;
+            container.innerHTML = years.map(year => `
+                <div class="pub-year-group">
+                    <div class="pub-year-header">
+                        <span class="pub-year-label">${year}</span>
+                        <div class="pub-year-line"></div>
+                    </div>
+                    <ul class="pub-list">
+                        ${byYear[year].map(r => `
+                        <li class="pub-item">
+                            <span class="pub-number">${num++}</span>
+                            <div class="pub-content">
+                                <div class="pub-title">${r.Title}</div>
+                                <div class="pub-authors">${r.Authors}</div>
+                                <div class="pub-venue">
+                                    <span class="pub-journal">${r.Venue}</span>
+                                    ${r.Type ? `<span class="pub-badge ieee">${r.Type}</span>` : ''}
+                                    ${r.Award ? `<span class="pub-badge best">🏆 ${r.Award}</span>` : ''}
+                                </div>
+                                <div class="pub-links">
+                                    ${r.PDF  ? `<a class="pub-link" href="${r.PDF}"  target="_blank">PDF</a>`  : ''}
+                                    ${r.Code ? `<a class="pub-link" href="${r.Code}" target="_blank">Code</a>` : ''}
+                                    ${r.Link ? `<a class="pub-link" href="${r.Link}" target="_blank">Link</a>` : ''}
+                                </div>
+                            </div>
+                        </li>`).join('')}
+                    </ul>
+                </div>`).join('');
+            pubsLoaded = true;
+        } catch (e) {
+            const isLoadFail = e.message === 'LOAD_FAIL' || e.message === 'TIMEOUT';
+            const msg = isLoadFail
+                ? `⚠️ 시트를 불러오지 못했습니다.<br><br>
+                   <strong>[해결 방법]</strong><br>
+                   1. 구글 시트 → 파일 → <strong>웹에 게시</strong> → Publications 탭 선택 → 게시<br>
+                   2. 탭 이름이 정확히 <code>Publications</code> 인지 확인<br>
+                   3. GitHub Pages에 올린 후 테스트 (로컬 파일에서는 Chrome이 차단할 수 있음)`
+                : `오류: ${e.message}`;
+            container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2.2;">${msg}</p>`;
+        }
+    }
+
+    let membersLoaded = false;
+    async function loadMembers() {
+        if (membersLoaded) return;
+        const container = document.getElementById('members-container');
+        if (SHEET_ID === 'YOUR_SHEET_ID_HERE') {
+            container.innerHTML = '<p style="color:var(--gray-400);text-align:center;padding:2rem;">⚙️ <code>SHEET_ID</code>를 설정하면 Google Sheets에서 자동으로 불러옵니다.</p>';
+            return;
+        }
+        container.innerHTML = '<p class="loading-msg">멤버 정보 불러오는 중…</p>';
+        try {
+            const rows = await fetchSheet('Members');
+            const categories = ['PhD', 'MS', 'Staff', 'Alumni'];
+            const catLabel = { PhD: 'Ph.D. Students', MS: 'M.S. Students', Staff: 'Research Staff & Visiting', Alumni: 'Alumni' };
+            let html2 = '';
+            categories.forEach(cat => {
+                const members = rows.filter(r => r.Category === cat);
+                if (!members.length) return;
+                if (cat === 'Alumni') {
+                    html2 += `<div class="members-section-title">${catLabel[cat]}</div>
+                    <div class="alumni-grid">
+                        ${members.map(r => `
+                        <div class="member-card-mini">
+                            <div class="member-mini-photo">🎓</div>
+                            <div>
+                                <div class="member-mini-name">${r.Name}</div>
+                                <div class="member-mini-info">${r.Info}</div>
+                            </div>
+                        </div>`).join('')}
+                    </div>`;
+                } else {
+                    html2 += `<div class="members-section-title">${catLabel[cat]}</div>
+                    <div class="members-grid">
+                        ${members.map(r => `
+                        <div class="member-card">
+                            <div class="member-photo">${r.Emoji || '👤'}</div>
+                            <div class="member-body">
+                                <div class="member-role">${r.Role}</div>
+                                <div class="member-name">${r.Name}</div>
+                                <p class="member-desc">${r.Info}</p>
+                            </div>
+                        </div>`).join('')}
+                    </div>`;
+                }
+            });
+            container.innerHTML = html2;
+            membersLoaded = true;
+        } catch (e) {
+            let msg2 = e.message === 'PRIVATE'
+                ? '⚠️ 시트가 비공개입니다. 공유 설정을 확인하세요.'
+                : e.message === 'PARSE_FAIL'
+                ? '⚠️ 탭 이름을 확인하세요. 정확히 <code>Members</code> 이어야 합니다.'
+                : `오류: ${e.message}`;
+            container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2;">${msg2}</p>`;
+        }
+    }
+
+    let newsLoaded = false;
+    async function loadNews() {
+        if (newsLoaded) return;
+        const container = document.getElementById('news-main');
+        if (SHEET_ID === 'YOUR_SHEET_ID_HERE') {
+            container.innerHTML = '<p style="color:var(--gray-400);text-align:center;padding:2rem;">⚙️ <code>SHEET_ID</code>를 설정하면 Google Sheets에서 자동으로 불러옵니다.</p>';
+            return;
+        }
+        container.innerHTML = '<p class="loading-msg">소식 불러오는 중…</p>';
+        try {
+            const rows = await fetchSheet('News');
+            container.innerHTML = rows.map(r => `
+                <div class="news-item">
+                    <div class="news-image">${r.Emoji || '📰'}</div>
+                    <div>
+                        <div class="news-item-meta">
+                            <span class="news-type-tag">${r.Type}</span>
+                            <span class="news-date">${r.Date}</span>
+                        </div>
+                        <h3>${r.Title}</h3>
+                        <p>${r.Content}</p>
+                    </div>
+                </div>`).join('');
+            newsLoaded = true;
+        } catch (e) {
+            let msg3 = e.message === 'PRIVATE'
+                ? '⚠️ 시트가 비공개입니다. 공유 설정을 확인하세요.'
+                : e.message === 'PARSE_FAIL'
+                ? '⚠️ 탭 이름을 확인하세요. 정확히 <code>News</code> 이어야 합니다.'
+                : `오류: ${e.message}`;
+            container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2;">${msg3}</p>`;
+        }
+    }
+
     // ── PAGE NAVIGATION ──
     function showPage(page) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1464,7 +1353,10 @@
         if (page === 'news') {
             loadGallery();
             loadCalendar();
+            loadNews();
         }
+        if (page === 'publication') loadPublications();
+        if (page === 'members') loadMembers();
     }
 
     window.addEventListener('scroll', () => {
