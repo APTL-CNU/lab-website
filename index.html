@@ -541,6 +541,64 @@
         .footer-col ul li a:hover { color: var(--accent); }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
 
+        /* ── HAMBURGER BUTTON ── */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 36px;
+            height: 36px;
+            padding: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+        .nav-hamburger:hover { background: var(--gray-100); }
+        .nav-hamburger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--gray-600);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ── MOBILE MENU ── */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 8px 24px rgba(12,35,64,0.12);
+            z-index: 999;
+            padding: 0.75rem 1rem;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .mobile-menu a:hover { color: var(--navy); background: var(--gray-100); }
+        .mobile-menu a.active { color: var(--accent-dark); background: rgba(58,173,173,0.1); font-weight: 600; }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
             .members-grid { grid-template-columns: repeat(2, 1fr); }
@@ -551,6 +609,7 @@
         }
         @media (max-width: 768px) {
             .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
             .hero-stats { gap: 1.5rem; }
             .news-grid-home { grid-template-columns: 1fr; }
             .news-layout { grid-template-columns: 1fr; }
@@ -657,8 +716,21 @@
             <li><a onclick="showPage('members')" id="nav-members">Members</a></li>
             <li><a onclick="showPage('news')" id="nav-news">News</a></li>
         </ul>
+        <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="메뉴 열기">
+            <span></span><span></span><span></span>
+        </button>
     </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+    <a onclick="showPage('home');closeMobileMenu()" id="mnav-home" class="active">Home</a>
+    <a onclick="showPage('professor');closeMobileMenu()" id="mnav-professor">Professor</a>
+    <a onclick="showPage('research');closeMobileMenu()" id="mnav-research">Research</a>
+    <a onclick="showPage('publication');closeMobileMenu()" id="mnav-publication">Publication</a>
+    <a onclick="showPage('members');closeMobileMenu()" id="mnav-members">Members</a>
+    <a onclick="showPage('news');closeMobileMenu()" id="mnav-news">News</a>
+</div>
 
 <!-- ══════════════════════════════════════════════════
      HOME
@@ -1208,6 +1280,32 @@
         container.innerHTML = '<p class="loading-msg">논문 불러오는 중…</p>';
         try {
             const rows = await fetchSheet('Publications');
+
+            // ── 디버그: 열 이름 확인 (문제 해결 후 아래 블록 삭제 가능) ──
+            if (rows.length > 0) {
+                const keys = Object.keys(rows[0]);
+                console.log('[Publications] 감지된 열 이름:', keys);
+                if (keys.some(k => k === '' || k === undefined)) {
+                    container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2;">
+                        ⚠️ 구글 시트의 <strong>첫 번째 행(헤더)</strong>이 비어 있거나 인식되지 않았습니다.<br>
+                        시트 첫 행에 열 이름이 있는지 확인하세요.<br>
+                        <small>콘솔(F12)에서 실제 열 이름을 확인할 수 있습니다.</small></p>`;
+                    return;
+                }
+                const expected = ['Year','Title','Authors','Venue'];
+                const missing = expected.filter(k => !keys.includes(k));
+                if (missing.length > 0) {
+                    container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2.2;">
+                        ⚠️ 시트 열 이름 불일치<br><br>
+                        <strong>필요한 열 이름:</strong> Year, Title, Authors, Venue, Type, Award, PDF, Code, Link<br>
+                        <strong>현재 감지된 열:</strong> ${keys.join(', ')}<br>
+                        <strong>누락 / 불일치:</strong> ${missing.join(', ')}<br><br>
+                        <small>열 이름은 대소문자까지 정확히 일치해야 합니다.</small></p>`;
+                    return;
+                }
+            }
+            // ── 디버그 끝 ────────────────────────────────────────────────
+
             const byYear = {};
             rows.forEach(r => { const y = r.Year || '기타'; if (!byYear[y]) byYear[y] = []; byYear[y].push(r); });
             const years = Object.keys(byYear).sort((a, b) => b - a);
@@ -1343,12 +1441,27 @@
         }
     }
 
+    // ── MOBILE MENU ──
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const btn  = document.getElementById('hamburger');
+        menu.classList.toggle('open');
+        btn.classList.toggle('open');
+    }
+    function closeMobileMenu() {
+        document.getElementById('mobile-menu').classList.remove('open');
+        document.getElementById('hamburger').classList.remove('open');
+    }
+
     // ── PAGE NAVIGATION ──
     function showPage(page) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('.mobile-menu a').forEach(a => a.classList.remove('active'));
         document.getElementById('page-' + page).classList.add('active');
         document.getElementById('nav-' + page).classList.add('active');
+        const mnavEl = document.getElementById('mnav-' + page);
+        if (mnavEl) mnavEl.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         if (page === 'news') {
             loadGallery();
