@@ -388,9 +388,9 @@
         .pub-item {
             display: flex;
             gap: 1rem;
-            padding: 0.7rem 1.25rem;
+            padding: 1.125rem 1.25rem;
             border-radius: 10px;
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.5rem;
             border: 1px solid transparent;
             transition: var(--transition);
         }
@@ -421,10 +421,6 @@
             transition: var(--transition);
         }
         .pub-link:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
-        .pub-link-doi { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
-        .pub-link-doi:hover { background: #bbdefb; border-color: #1565c0; color: #0d47a1; }
-        .pub-link-pdf { background: #fce4ec; border-color: #f48fb1; color: #c62828; }
-        .pub-link-pdf:hover { background: #f8bbd0; border-color: #c62828; color: #b71c1c; }
 
         /* ── MEMBERS ── */
         .members-section-title {
@@ -546,52 +542,6 @@
             transition: var(--transition);
         }
         .gallery-item:hover { transform: scale(1.06); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        /* Lightbox */
-        .lightbox-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.88);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-        }
-        .lightbox-overlay.open { display: flex; }
-        .lightbox-inner {
-            position: relative;
-            max-width: 90vw;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .lightbox-inner img {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 10px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-            object-fit: contain;
-        }
-        .lightbox-caption {
-            color: rgba(255,255,255,0.85);
-            font-size: 0.88rem;
-            text-align: center;
-        }
-        .lightbox-close {
-            position: absolute;
-            top: -2.5rem;
-            right: 0;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-            line-height: 1;
-            opacity: 0.8;
-        }
-        .lightbox-close:hover { opacity: 1; }
 
         /* ── FOOTER ── */
         footer { background: var(--navy); color: rgba(255,255,255,0.55); padding: 3rem 0 2rem; }
@@ -789,6 +739,17 @@
         </div>
     </div>
 
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Latest Updates</div>
+                <h2 class="section-title">News & Highlights</h2>
+                <p class="section-subtitle">Recent achievements, publications, and events from our lab.</p>
+            </div>
+            <div class="news-grid-home" id="home-highlights-grid"></div>
+        </div>
+    </section>
+
     <section class="bg-alt">
         <div class="container">
             <div class="section-header">
@@ -800,17 +761,6 @@
             <div style="text-align:center; margin-top:2rem;">
                 <button class="btn-primary" onclick="showPage('research')">View All Research →</button>
             </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="container">
-            <div class="section-header">
-                <div class="section-tag">Latest Updates</div>
-                <h2 class="section-title">News & Highlights</h2>
-                <p class="section-subtitle">Recent achievements, publications, and events from our lab.</p>
-            </div>
-            <div class="news-grid-home" id="home-highlights-grid"></div>
         </div>
     </section>
 
@@ -1054,7 +1004,7 @@
                     <div class="sidebar-widget">
                         <h3>🔔 Quick Links</h3>
                         <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                            <a class="prof-link" href="mailto:seho.kweon@jnu.ac.kr" style="font-size:0.8rem;">📋 &nbsp;Join Our Lab</a>
+                            <a class="prof-link" style="font-size:0.8rem;">📋 &nbsp;Join Our Lab</a>
                             <a class="prof-link" style="font-size:0.8rem;">🔗 &nbsp;Google Scholar</a>
                             <a class="prof-link" style="font-size:0.8rem;">🐱 &nbsp;GitHub</a>
                         </div>
@@ -1071,15 +1021,6 @@
             </div>
         </div>
     </footer>
-</div>
-
-<!-- LIGHTBOX -->
-<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
-    <div class="lightbox-inner">
-        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-        <img id="lightbox-img" src="" alt="">
-        <div class="lightbox-caption" id="lightbox-caption"></div>
-    </div>
 </div>
 
 <script>
@@ -1760,10 +1701,10 @@ const SITE_DATA = {
                                 ${p.badge ? `<span class="pub-badge ${p.badge}">${BADGE_LABELS[p.badge] || p.badge}</span>` : ''}
                             </div>
                             <div class="pub-links">
-                                ${p.doi ? `<a class="pub-link pub-link-doi" href="https://doi.org/${p.doi}" target="_blank">DOI</a>` : ''}
+                                ${p.doi ? `<a class="pub-link" href="https://doi.org/${p.doi}" target="_blank">DOI</a>` : ''}
                                 ${(p.links||[]).filter(l=>l.text).map(l => l.url
-                                    ? `<a class="pub-link${l.text==='PDF'?' pub-link-pdf':''}" href="${l.url}" target="_blank">${l.text}</a>`
-                                    : `<a class="pub-link${l.text==='PDF'?' pub-link-pdf':''}">${l.text}</a>`).join('')}
+                                    ? `<a class="pub-link" href="${l.url}" target="_blank">${l.text}</a>`
+                                    : `<a class="pub-link">${l.text}</a>`).join('')}
                             </div>
                         </div>
                     </li>`).join('')}
@@ -2008,24 +1949,10 @@ const SITE_DATA = {
             return;
         }
         grid.innerHTML = photos.map(g => `
-            <div class="gallery-photo" title="${g.caption||''}" style="cursor:pointer;" onclick="openLightbox('${g.photo}','${(g.caption||'').replace(/'/g,"\\'")}')">
+            <div class="gallery-photo" title="${g.caption||''}">
                 <img src="${g.photo}" alt="${g.caption||'Lab photo'}" loading="lazy">
             </div>`).join('');
     }
-
-    function openLightbox(src, caption) {
-        document.getElementById('lightbox-img').src = src;
-        document.getElementById('lightbox-caption').textContent = caption || '';
-        document.getElementById('lightbox').classList.add('open');
-        document.addEventListener('keydown', _lbKey);
-    }
-    function closeLightbox(e) {
-        if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
-        document.getElementById('lightbox').classList.remove('open');
-        document.getElementById('lightbox-img').src = '';
-        document.removeEventListener('keydown', _lbKey);
-    }
-    function _lbKey(e) { if (e.key === 'Escape') { document.getElementById('lightbox').classList.remove('open'); document.removeEventListener('keydown', _lbKey); } }
 
     // ── START ────────────────────────────────────────────────────────
     initData();
