@@ -402,7 +402,7 @@
         .pub-authors strong { color: var(--navy); font-weight: 600; }
         .pub-venue { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
         .pub-journal { font-size: 0.8rem; font-style: italic; color: var(--gray-600); }
-        .pub-badge { font-size: 0.66rem; font-weight: 700; padding: 0.14rem 0.45rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .pub-badge { font-size: 0.66rem; font-weight: 700; padding: 0.14rem 0.45rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; background: #f0f4ff; color: #3949ab; }
         .pub-badge.nature { background: #e8f5e9; color: #2e7d32; }
         .pub-badge.science { background: #e3f2fd; color: #1565c0; }
         .pub-badge.ieee { background: #fff3e0; color: #e65100; }
@@ -541,64 +541,6 @@
         .footer-col ul li a:hover { color: var(--accent); }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
 
-        /* ── HAMBURGER BUTTON ── */
-        .nav-hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-            width: 36px;
-            height: 36px;
-            padding: 4px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-left: auto;
-            border-radius: 6px;
-            transition: var(--transition);
-        }
-        .nav-hamburger:hover { background: var(--gray-100); }
-        .nav-hamburger span {
-            display: block;
-            width: 22px;
-            height: 2px;
-            background: var(--gray-600);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-        /* ── MOBILE MENU ── */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            right: 0;
-            background: var(--white);
-            border-bottom: 2px solid var(--accent);
-            box-shadow: 0 8px 24px rgba(12,35,64,0.12);
-            z-index: 999;
-            padding: 0.75rem 1rem;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a {
-            color: var(--gray-600);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        .mobile-menu a:hover { color: var(--navy); background: var(--gray-100); }
-        .mobile-menu a.active { color: var(--accent-dark); background: rgba(58,173,173,0.1); font-weight: 600; }
-
         /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
             .members-grid { grid-template-columns: repeat(2, 1fr); }
@@ -607,10 +549,50 @@
             .prof-photo-card { position: static; }
             .prof-photo { aspect-ratio: 16/9; }
         }
+
+        /* ── HAMBURGER MENU (모바일) ── */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 40px; height: 40px;
+            background: none; border: none; cursor: pointer;
+            padding: 6px; border-radius: 8px;
+            transition: var(--transition); margin-left: auto;
+        }
+        .hamburger:hover { background: var(--gray-100); }
+        .hamburger span {
+            display: block; height: 2px; width: 22px;
+            background: var(--navy); border-radius: 2px;
+            transition: all 0.3s ease; transform-origin: center;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-menu {
+            display: none; position: fixed; top: 70px; left: 0; right: 0;
+            background: var(--white); border-bottom: 1px solid var(--gray-200);
+            box-shadow: 0 8px 24px rgba(12,35,64,0.1); z-index: 999;
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.35s ease, opacity 0.25s ease; opacity: 0;
+        }
+        .mobile-menu.open { max-height: 400px; opacity: 1; }
+        .mobile-menu ul { list-style: none; padding: 0.5rem 1rem 1rem; }
+        .mobile-menu ul li a {
+            display: block; padding: 0.75rem 1rem; color: var(--gray-600);
+            font-size: 0.95rem; font-weight: 500; border-radius: 8px;
+            cursor: pointer; transition: var(--transition); text-decoration: none;
+        }
+        .mobile-menu ul li a:hover,
+        .mobile-menu ul li a.active { background: var(--gray-100); color: var(--accent-dark); font-weight: 600; }
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .nav-hamburger { display: flex; }
-            .hero-stats { gap: 1.5rem; }
+            .nav-links { display: none !important; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: block; }
+        }
+
+
             .news-grid-home { grid-template-columns: 1fr; }
             .news-layout { grid-template-columns: 1fr; }
             .news-item { grid-template-columns: 1fr; }
@@ -689,14 +671,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .page.active > * { animation: fadeUp 0.45s ease both; }
-
-        /* Google Sheets 로딩 메시지 */
-        .loading-msg {
-            text-align: center;
-            color: var(--gray-400);
-            padding: 3rem 1rem;
-            font-size: 0.95rem;
-        }
     </style>
 </head>
 <body>
@@ -716,20 +690,20 @@
             <li><a onclick="showPage('members')" id="nav-members">Members</a></li>
             <li><a onclick="showPage('news')" id="nav-news">News</a></li>
         </ul>
-        <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="메뉴 열기">
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="메뉴">
             <span></span><span></span><span></span>
         </button>
     </div>
 </nav>
-
-<!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobile-menu">
-    <a onclick="showPage('home');closeMobileMenu()" id="mnav-home" class="active">Home</a>
-    <a onclick="showPage('professor');closeMobileMenu()" id="mnav-professor">Professor</a>
-    <a onclick="showPage('research');closeMobileMenu()" id="mnav-research">Research</a>
-    <a onclick="showPage('publication');closeMobileMenu()" id="mnav-publication">Publication</a>
-    <a onclick="showPage('members');closeMobileMenu()" id="mnav-members">Members</a>
-    <a onclick="showPage('news');closeMobileMenu()" id="mnav-news">News</a>
+    <ul>
+        <li><a onclick="showPage('home');closeMenu()" class="active" id="m-nav-home">Home</a></li>
+        <li><a onclick="showPage('professor');closeMenu()" id="m-nav-professor">Professor</a></li>
+        <li><a onclick="showPage('research');closeMenu()" id="m-nav-research">Research</a></li>
+        <li><a onclick="showPage('publication');closeMenu()" id="m-nav-publication">Publication</a></li>
+        <li><a onclick="showPage('members');closeMenu()" id="m-nav-members">Members</a></li>
+        <li><a onclick="showPage('news');closeMenu()" id="m-nav-news">News</a></li>
+    </ul>
 </div>
 
 <!-- ══════════════════════════════════════════════════
@@ -757,26 +731,7 @@
                 <h2 class="section-title">News & Highlights</h2>
                 <p class="section-subtitle">Recent achievements, publications, and events from our lab.</p>
             </div>
-            <div class="news-grid-home">
-                <div class="news-card-home" onclick="showPage('news')">
-                    <div class="news-date">Jun 2026</div>
-                    <div class="news-type-tag">Award</div>
-                    <h3>Best Paper Award at NeurIPS 2026</h3>
-                    <p>Our work on self-supervised learning received the Best Paper Award at NeurIPS 2026 in Vancouver.</p>
-                </div>
-                <div class="news-card-home" onclick="showPage('news')">
-                    <div class="news-date">May 2026</div>
-                    <div class="news-type-tag">Publication</div>
-                    <h3>New Paper Accepted at Nature Machine Intelligence</h3>
-                    <p>Our research on multi-modal large language models has been accepted for publication.</p>
-                </div>
-                <div class="news-card-home" onclick="showPage('news')">
-                    <div class="news-date">Apr 2026</div>
-                    <div class="news-type-tag">People</div>
-                    <h3>Welcome New PhD Students!</h3>
-                    <p>We are excited to welcome three new PhD students joining the lab for Fall 2026 semester.</p>
-                </div>
-            </div>
+            <div class="news-grid-home" id="home-highlights-grid"></div>
         </div>
     </section>
 
@@ -787,38 +742,7 @@
                 <h2 class="section-title">Research Directions</h2>
                 <p class="section-subtitle">Our work spans multiple domains at the intersection of AI, robotics, and human experience.</p>
             </div>
-            <div class="research-grid">
-                <div class="research-card" onclick="showPage('research')" style="cursor:pointer;">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a3060, #1a5fa0);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">🤖</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>Embodied AI & Robotic Manipulation</h3>
-                        <p>Developing learning algorithms that enable robots to acquire dexterous manipulation skills from minimal demonstrations, bridging simulation and real-world deployment.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">Robot Learning</span>
-                            <span class="research-tag">Sim-to-Real</span>
-                            <span class="research-tag">Manipulation</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="research-card" onclick="showPage('research')" style="cursor:pointer;">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #1a0a40, #4a1a8a);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">🧠</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>Foundation Models for Scientific Discovery</h3>
-                        <p>Adapting large foundation models for scientific tasks including drug discovery, protein structure prediction, and materials design to accelerate breakthroughs.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">LLM</span>
-                            <span class="research-tag">Drug Discovery</span>
-                            <span class="research-tag">Scientific ML</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="home-research-grid" class="research-grid"></div>
             <div style="text-align:center; margin-top:2rem;">
                 <button class="btn-primary" onclick="showPage('research')">View All Research →</button>
             </div>
@@ -960,108 +884,12 @@
         <div class="container">
             <div class="breadcrumb">Home <span>›</span> Research</div>
             <h1>Research</h1>
-            <p>Exploring the frontiers of AI, robotics, and intelligent systems</p>
+            <p>Our research focuses on peptide therapeutics, drug delivery, and computational pharmaceutics</p>
         </div>
     </div>
     <section>
         <div class="container">
-            <div class="research-grid">
-                <div class="research-card">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a3060, #1a5fa0);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">🤖</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>Embodied AI & Robotic Manipulation</h3>
-                        <p>We develop learning algorithms that enable robots to acquire dexterous manipulation skills from minimal demonstrations. Our approach combines imitation learning, reinforcement learning, and world models to bridge the gap between simulation and real-world deployment. Key challenges include contact-rich manipulation, deformable object handling, and long-horizon task planning.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">Robot Learning</span>
-                            <span class="research-tag">Sim-to-Real Transfer</span>
-                            <span class="research-tag">Dexterous Manipulation</span>
-                            <span class="research-tag">Imitation Learning</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="research-card">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #1a0a40, #4a1a8a);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">🧠</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>Foundation Models for Scientific Discovery</h3>
-                        <p>We adapt and fine-tune large foundation models for scientific tasks including drug discovery, protein structure prediction, and materials design. By developing domain-specific pre-training strategies and evaluation benchmarks, we aim to accelerate the pace of scientific breakthroughs using AI as a research partner.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">Large Language Models</span>
-                            <span class="research-tag">Drug Discovery</span>
-                            <span class="research-tag">Protein Folding</span>
-                            <span class="research-tag">Scientific ML</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="research-card">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a3030, #0a6050);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">👁️</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>3D Scene Understanding & Generation</h3>
-                        <p>Our research addresses the fundamental challenge of 3D visual understanding from sparse observations. We develop novel neural representations for scenes and objects that enable robots and autonomous systems to build accurate world models from monocular video, enabling downstream tasks like navigation, manipulation, and scene editing.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">Neural Radiance Fields</span>
-                            <span class="research-tag">3D Gaussian Splatting</span>
-                            <span class="research-tag">SLAM</span>
-                            <span class="research-tag">Generative Models</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="research-card">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #3a1a00, #8a4a00);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">🤝</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>Human-Robot Collaboration</h3>
-                        <p>We study how robots and humans can effectively collaborate on shared tasks in unstructured environments. Our research spans intent prediction, shared autonomy, and natural language interfaces for robot control. We conduct user studies to understand human factors and design robot behaviors that feel natural, safe, and trustworthy.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">Human-Robot Interaction</span>
-                            <span class="research-tag">Shared Autonomy</span>
-                            <span class="research-tag">NLP for Robotics</span>
-                            <span class="research-tag">User Studies</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="research-card">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #0a2a0a, #1a5a2a);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">🌐</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>Multi-Agent Systems & Emergent Behavior</h3>
-                        <p>We investigate how multiple AI agents can coordinate to solve complex tasks that are beyond the reach of any single agent. Using multi-agent reinforcement learning and game-theoretic approaches, we study emergent communication, cooperative and competitive behaviors, and scalable coordination mechanisms for swarm robotics.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">Multi-Agent RL</span>
-                            <span class="research-tag">Swarm Robotics</span>
-                            <span class="research-tag">Game Theory</span>
-                            <span class="research-tag">Emergent Communication</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="research-card">
-                    <div class="research-abstract" style="background: linear-gradient(135deg, #2a0a1a, #6a1a4a);">
-                        <span class="research-abstract-label">Active</span>
-                        <span class="research-abstract-emoji">⚡</span>
-                    </div>
-                    <div class="research-body">
-                        <h3>Efficient & Trustworthy AI</h3>
-                        <p>As AI systems are deployed in safety-critical applications, efficiency and trustworthiness become paramount. We research model compression, uncertainty quantification, and robustness verification techniques that make deep learning models more reliable, interpretable, and deployable on resource-constrained hardware.</p>
-                        <div class="research-tags">
-                            <span class="research-tag">Model Compression</span>
-                            <span class="research-tag">Uncertainty Quantification</span>
-                            <span class="research-tag">Robustness</span>
-                            <span class="research-tag">Interpretability</span>
-                        </div>
-                    </div>
-                </div>
+            <div id="research-grid" class="research-grid">
             </div>
         </div>
     </section>
@@ -1096,9 +924,7 @@
                 <button class="filter-btn" onclick="filterPubs(this,'ml')">Machine Learning</button>
             </div>
 
-            <div class="pub-container">
-                <p class="loading-msg">논문 불러오는 중…</p>
-            </div>
+            <div id="pub-container"></div>
         </div>
     </section>
     <footer>
@@ -1124,9 +950,7 @@
     </div>
     <section>
         <div class="container">
-            <div id="members-container">
-                <p class="loading-msg">멤버 정보 불러오는 중…</p>
-            </div>
+            <div id="members-container"></div>
         </div>
     </section>
     <footer>
@@ -1153,33 +977,14 @@
     <section>
         <div class="container">
             <div class="news-layout">
-                <div class="news-main" id="news-main">
-                    <p class="loading-msg">소식 불러오는 중…</p>
-                </div>
+                <div class="news-main" id="news-main"></div>
                 <div class="news-sidebar">
-                    <!-- ── GOOGLE PHOTOS GALLERY ── -->
                     <div class="sidebar-widget">
                         <h3>📸 Photo Gallery</h3>
                         <div id="gallery-grid" class="gallery-grid">
-                            <div class="gallery-loading">사진 불러오는 중…</div>
+                            <div class="gallery-loading" style="grid-column:1/-1;text-align:center;font-size:0.8rem;color:var(--gray-400);padding:1rem;">관리자에서 사진을 추가하세요.</div>
                         </div>
-                        <!-- 설정 안내 (배포 후 제거) -->
-                        <p style="font-size:0.7rem;color:var(--gray-400);margin-top:0.75rem;line-height:1.5;">
-                            ⚙️ <strong>설정 방법:</strong> 아래 <code>DRIVE_FOLDER_ID</code>와 <code>DRIVE_API_KEY</code>를 실제 값으로 교체하세요.
-                        </p>
                     </div>
-
-                    <!-- ── GOOGLE CALENDAR ── -->
-                    <div class="sidebar-widget">
-                        <h3>📅 Upcoming Events</h3>
-                        <div id="calendar-events">
-                            <div class="calendar-loading">일정 불러오는 중…</div>
-                        </div>
-                        <p style="font-size:0.7rem;color:var(--gray-400);margin-top:0.75rem;line-height:1.5;">
-                            ⚙️ <strong>설정 방법:</strong> 아래 <code>CALENDAR_ID</code>와 <code>CAL_API_KEY</code>를 실제 값으로 교체하세요.
-                        </p>
-                    </div>
-
                     <div class="sidebar-widget">
                         <h3>🔔 Quick Links</h3>
                         <div style="display:flex; flex-direction:column; gap:0.5rem;">
@@ -1203,350 +1008,622 @@
 </div>
 
 <script>
-    // ── 여기에 본인 키와 ID를 입력하세요 ──────────────────────────────
-    const DRIVE_API_KEY   = 'YOUR_GOOGLE_API_KEY';      // Google Cloud API 키
-    const DRIVE_FOLDER_ID = 'YOUR_GOOGLE_DRIVE_FOLDER_ID'; // 공개 드라이브 폴더 ID
-    const CALENDAR_ID     = 'YOUR_CALENDAR_ID@group.calendar.google.com'; // Google 캘린더 ID
-    const CAL_API_KEY     = 'YOUR_GOOGLE_API_KEY';      // 위 API 키와 동일하게 사용 가능
-    // ────────────────────────────────────────────────────────────────
+// ══ CONFIG ═══════════════════════════════════════════════════════════
+// Cloudflare Worker URL을 입력하세요.
+// 예: 'https://aptl-proxy.your-name.workers.dev'
+// 비워두면 아래 SITE_DATA(샘플 데이터)를 사용합니다.
+const WORKER_URL = '';
 
-    // ── Google Sheets CMS ─────────────────────────────────────────────
-    // 아래 SHEET_ID를 본인 구글 시트 ID로 교체하세요.
-    // (URL: docs.google.com/spreadsheets/d/[SHEET_ID]/edit)
-    // 각 탭(Publications, Members, News)을 '웹에 게시'하면 자동으로 업데이트됩니다.
-    const SHEET_ID = '1iZ3ddD2LhX6APECSXqXStjN3tTUD01-pYjUARUgR5QE';
-    // ────────────────────────────────────────────────────────────────
-
-    // Google Sheets 데이터 로드 (gviz setResponse 인터셉트 방식)
-    // — fetch 없이 script 태그만 사용, file:// 로컬에서도 작동
-    function fetchSheet(sheetName) {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            let settled = false;
-
-            function done(rows) {
-                if (settled) return;
-                settled = true;
-                try { document.head.removeChild(script); } catch(e) {}
-                resolve(rows);
-            }
-            function fail(msg) {
-                if (settled) return;
-                settled = true;
-                try { document.head.removeChild(script); } catch(e) {}
-                reject(new Error(msg));
-            }
-
-            // gviz는 항상 google.visualization.Query.setResponse(json) 를 호출
-            window.google = window.google || {};
-            window.google.visualization = window.google.visualization || {};
-            window.google.visualization.Query = window.google.visualization.Query || {};
-            window.google.visualization.Query.setResponse = function(json) {
-                if (json.status === 'error') {
-                    fail('SHEET_ERROR: ' + (json.errors?.[0]?.message || '알 수 없는 오류'));
-                    return;
-                }
-                if (!json.table || !json.table.rows) { done([]); return; }
-                const cols = json.table.cols.map(c => c.label);
-                const rows = json.table.rows
-                    .filter(row => row.c && row.c.some(c => c?.v != null))
-                    .map(row => Object.fromEntries(cols.map((col, i) => [col, row.c[i]?.v ?? ''])));
-                done(rows);
-            };
-
-            // 10초 타임아웃
-            const timer = setTimeout(() => fail('TIMEOUT'), 10000);
-            script.onload = () => clearTimeout(timer);
-
-            script.onerror = () => {
-                clearTimeout(timer);
-                // script.onerror = 시트가 비공개이거나 네트워크 문제
-                fail('LOAD_FAIL');
-            };
-
-            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`
-                + `?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
-            document.head.appendChild(script);
-        });
+// ══ SITE DATA (Fallback / Sample) ════════════════════════════════════
+// ==SITE_DATA_START==
+const SITE_DATA = {
+  "publications": [
+    {
+      "year": 2026,
+      "category": "Conference",
+      "title": "Self-Supervised Representation Learning for Robotic Manipulation via Cross-Modal Contrastive Objectives",
+      "authors": "**Gildong Hong**, Jisoo Kim, Minjae Park, Soyeon Lee",
+      "venue": "NeurIPS 2026 (Oral Presentation)",
+      "badge": "best",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        },
+        {
+          "text": "Project Page",
+          "url": ""
+        },
+        {
+          "text": "Video",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "year": 2026,
+      "category": "Journal",
+      "title": "Multi-Modal Language Models for Scientific Knowledge Extraction and Hypothesis Generation",
+      "authors": "**Gildong Hong**, Hyunwoo Shin, Eunji Cho",
+      "venue": "Nature Machine Intelligence, 2026",
+      "badge": "nature",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        },
+        {
+          "text": "Dataset",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "year": 2025,
+      "category": "Conference",
+      "title": "3D Gaussian Splatting for Dynamic Scene Reconstruction from Monocular Video",
+      "authors": "Jisoo Kim, **Gildong Hong**",
+      "venue": "CVPR 2025",
+      "badge": "ieee",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        },
+        {
+          "text": "Demo",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "year": 2025,
+      "category": "Conference",
+      "title": "Emergent Communication in Multi-Agent Reinforcement Learning with Structured World Models",
+      "authors": "Minjae Park, Soyeon Lee, **Gildong Hong**",
+      "venue": "ICML 2025",
+      "badge": "acm",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "year": 2025,
+      "category": "Journal",
+      "title": "Efficient Neural Network Compression via Structured Pruning and Knowledge Distillation for Edge Robotics",
+      "authors": "Eunji Cho, Hyunwoo Shin, **Gildong Hong**",
+      "venue": "IEEE Transactions on Neural Networks and Learning Systems, 2025",
+      "badge": "ieee",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "category": "Conference",
+      "title": "Language-Conditioned Robot Manipulation via Vision-Language Pre-training and Hierarchical Planning",
+      "authors": "**Gildong Hong**, Jisoo Kim, Taehyun Ryu",
+      "venue": "RSS 2024 (Robotics: Science and Systems)",
+      "badge": "ieee",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        },
+        {
+          "text": "Video",
+          "url": ""
+        },
+        {
+          "text": "Website",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "category": "Conference",
+      "title": "Human-Guided Reinforcement Learning for Safe Robotic Exploration in Unstructured Environments",
+      "authors": "Soyeon Lee, Minjae Park, **Gildong Hong**",
+      "venue": "IROS 2024",
+      "badge": "ieee",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "category": "Journal",
+      "title": "Uncertainty-Aware Sim-to-Real Transfer for Contact-Rich Manipulation Tasks",
+      "authors": "Jiwon Han, **Gildong Hong**, Jisoo Kim",
+      "venue": "International Journal of Robotics Research (IJRR), 2024",
+      "badge": "science",
+      "doi": "",
+      "links": [
+        {
+          "text": "PDF",
+          "url": ""
+        }
+      ]
     }
-    let pubsLoaded = false;
-    async function loadPublications() {
-        if (pubsLoaded) return;
-        const container = document.querySelector('.pub-container');
-        if (SHEET_ID === 'YOUR_SHEET_ID_HERE') {
-            container.innerHTML = '<p style="color:var(--gray-400);text-align:center;padding:2rem;">⚙️ <code>SHEET_ID</code>를 설정하면 Google Sheets에서 자동으로 불러옵니다.</p>';
+  ],
+  "members": [
+    {
+      "category": "PhD",
+      "emoji": "👩‍💻",
+      "photo": "images/Members/DedongYu.png",
+      "name": "Dedong Yu",
+      "role": "Ph.D candidate, '25.Sep ~",
+      "info": "**Current work**: Building biomaterial to enable multi-route delivery of drugs, focusing on addressing inflammatory diseases"
+    },
+    {
+      "category": "Staff",
+      "photo": "",
+      "emoji": "🧑‍🔬",
+      "role": "Postdoctoral Researcher",
+      "name": "한지원 (Jiwon Han)",
+      "info": "Ph.D. ETH Zurich, 2024<br>Sim-to-real transfer · Locomotion"
+    },
+    {
+      "category": "Alumni",
+      "name": "오성준 (Sungjun Oh)",
+      "info": "Ph.D. 2024 → Google DeepMind"
+    },
+    {
+      "category": "Alumni",
+      "name": "윤채린 (Chaerin Yoon)",
+      "info": "M.S. 2024 → Samsung Research"
+    },
+    {
+      "category": "Alumni",
+      "name": "임도현 (Dohyun Lim)",
+      "info": "Ph.D. 2023 → MIT Postdoc"
+    },
+    {
+      "category": "Alumni",
+      "name": "강나래 (Narae Kang)",
+      "info": "M.S. 2023 → LG AI Research"
+    },
+    {
+      "category": "Alumni",
+      "name": "배지훈 (Jihoon Bae)",
+      "info": "Ph.D. 2022 → Naver Labs"
+    },
+    {
+      "category": "Alumni",
+      "name": "최예슬 (Yeseul Choi)",
+      "info": "M.S. 2022 → Kakao Brain"
+    }
+  ],
+  "news": [
+    {
+      "emoji": "🏆",
+      "photo": "",
+      "type": "Award",
+      "date": "Jun 15, 2026",
+      "title": "Best Paper Award at NeurIPS 2026",
+      "content": "We are thrilled to announce that our paper received the Best Paper Award at NeurIPS 2026, held in Vancouver, Canada."
+    },
+    {
+      "emoji": "📄",
+      "photo": "",
+      "type": "Publication",
+      "date": "May 3, 2026",
+      "title": "New Paper Accepted at Nature Machine Intelligence",
+      "content": "Our paper &ldquo;Multi-Modal Language Models for Scientific Knowledge Extraction&rdquo; has been accepted for publication in Nature Machine Intelligence."
+    },
+    {
+      "emoji": "🎓",
+      "photo": "",
+      "type": "People",
+      "date": "Apr 1, 2026",
+      "title": "Welcome New Lab Members!",
+      "content": "We are delighted to welcome three new PhD students and one MS student joining our lab in Spring 2026."
+    },
+    {
+      "emoji": "🎤",
+      "photo": "",
+      "type": "Talk",
+      "date": "Mar 12, 2026",
+      "title": "Invited Talk at KAIST AI Colloquium",
+      "content": "Prof. Kweon gave an invited talk on peptide drug delivery systems at the KAIST AI Colloquium Series."
+    },
+    {
+      "emoji": "🤝",
+      "photo": "",
+      "type": "Grant",
+      "date": "Jan 20, 2026",
+      "title": "NRF Research Grant Awarded — ₩500M",
+      "content": "The lab has been awarded a ₩500M research grant from the National Research Foundation of Korea (NRF) for our project on peptide-based therapeutics."
+    }
+  ],
+  "research": [
+    {
+      "emoji": "🧪",
+      "status": "Active",
+      "color": "linear-gradient(135deg, #0a3060, #1a5fa0)",
+      "title": "Peptide Delivery Systems for Metabolic Disease",
+      "description": "We develop innovative peptide-based drug delivery systems targeting metabolic diseases including diabetes and obesity. Our research focuses on overcoming oral bioavailability barriers and designing self-assembling peptide nanocarriers for enhanced therapeutic efficacy.",
+      "tags": [
+        "Peptide Engineering",
+        "Oral Drug Delivery",
+        "Metabolic Disease",
+        "GLP-1"
+      ]
+    },
+    {
+      "emoji": "💊",
+      "status": "Active",
+      "color": "linear-gradient(135deg, #1a0a40, #4a1a8a)",
+      "title": "Computational Pharmaceutics for Biologics",
+      "description": "We apply machine learning and mathematical modeling to predict the pharmacokinetics and pharmacodynamics of biologics. This enables rational design of formulations and dosing strategies for complex therapeutic proteins and peptides.",
+      "tags": [
+        "PKPD Modeling",
+        "Machine Learning",
+        "Biologics",
+        "Formulation Design"
+      ]
+    },
+    {
+      "emoji": "🔬",
+      "status": "Active",
+      "color": "linear-gradient(135deg, #0a3030, #0a6050)",
+      "title": "Nanoformulation & Oral Delivery",
+      "description": "Our group investigates advanced nanoparticle platforms — including lipid nanoparticles, polymeric micelles, and self-emulsifying systems — to enhance the oral bioavailability of poorly soluble drugs and macromolecular therapeutics.",
+      "tags": [
+        "Nanoparticles",
+        "Lipid Nanoparticles",
+        "Biopharmaceutics",
+        "BCS Classification"
+      ]
+    },
+    {
+      "emoji": "🩺",
+      "status": "Active",
+      "color": "linear-gradient(135deg, #0a2a0a, #1a5a2a)",
+      "title": "Translational Cancer Drug Delivery",
+      "description": "We use mathematical models and experimental data to optimize drug delivery strategies for cancer treatment, integrating tumor pharmacology with clinical translational science to accelerate bench-to-bedside research.",
+      "tags": [
+        "Cancer Treatment",
+        "Mathematical Modeling",
+        "Tumor Pharmacology",
+        "Translational Science"
+      ]
+    }
+  ],
+  "gallery": [
+    {
+      "photo": "",
+      "caption": ""
+    }
+  ]
+};
+// ==SITE_DATA_END==
+// ═════════════════════════════════════════════════════════════════════
+
+    // ── NOTION DATA FETCHING ─────────────────────────────────────────
+    async function fetchFromWorker(type) {
+        const res = await fetch(`${WORKER_URL}?type=${type}`);
+        if (!res.ok) throw new Error(`Worker 응답 오류 (${res.status})`);
+        return res.json();
+    }
+
+    function showLoading(id, msg) {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--gray-400);font-size:0.9rem;">⏳ ${msg}</div>`;
+    }
+    function showError(id, msg) {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = `<div style="text-align:center;padding:3rem;color:#c0392b;font-size:0.9rem;">⚠️ ${msg}</div>`;
+    }
+
+    // ── RENDER FUNCTIONS ─────────────────────────────────────────────
+    function formatAuthors(str) {
+        return str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    }
+    const BADGE_LABELS = { best:'Best Paper', ieee:'Journal/Conf', nature:'Journal', acm:'Conference', science:'Journal', conference:'Conference', journal:'Journal' };
+
+    let ALL_PUBS = [];
+
+    function renderPublications(pubs) {
+        ALL_PUBS = pubs;
+
+        // 동적 필터 버튼 생성 (데이터에 있는 category만)
+        const cats = [...new Set(pubs.map(p => p.category).filter(Boolean))].sort();
+        const filterBar = document.querySelector('.filter-bar');
+        if (filterBar) {
+            filterBar.innerHTML = `<button class="filter-btn active" onclick="filterPubs(this,'all')">All</button>`
+                + cats.map(c => `<button class="filter-btn" onclick="filterPubs(this,'${c}')">${c}</button>`).join('');
+        }
+        renderPubsByFilter(pubs);
+    }
+
+    function renderPubsByFilter(pubs) {
+        const byYear = {};
+        pubs.forEach(p => { if(!byYear[p.year]) byYear[p.year]=[]; byYear[p.year].push(p); });
+        const years = Object.keys(byYear).sort((a,b)=>b-a);
+        if (!years.length) {
+            document.getElementById('pub-container').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--gray-400);">해당 카테고리의 논문이 없습니다.</div>';
             return;
         }
-        container.innerHTML = '<p class="loading-msg">논문 불러오는 중…</p>';
-        try {
-            const rows = await fetchSheet('Publications');
-
-            // ── 디버그: 열 이름 확인 (문제 해결 후 아래 블록 삭제 가능) ──
-            if (rows.length > 0) {
-                const keys = Object.keys(rows[0]);
-                console.log('[Publications] 감지된 열 이름:', keys);
-                if (keys.some(k => k === '' || k === undefined)) {
-                    container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2;">
-                        ⚠️ 구글 시트의 <strong>첫 번째 행(헤더)</strong>이 비어 있거나 인식되지 않았습니다.<br>
-                        시트 첫 행에 열 이름이 있는지 확인하세요.<br>
-                        <small>콘솔(F12)에서 실제 열 이름을 확인할 수 있습니다.</small></p>`;
-                    return;
-                }
-                const expected = ['Year','Title','Authors','Venue'];
-                const missing = expected.filter(k => !keys.includes(k));
-                if (missing.length > 0) {
-                    container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2.2;">
-                        ⚠️ 시트 열 이름 불일치<br><br>
-                        <strong>필요한 열 이름:</strong> Year, Title, Authors, Venue, Type, Award, PDF, Code, Link<br>
-                        <strong>현재 감지된 열:</strong> ${keys.join(', ')}<br>
-                        <strong>누락 / 불일치:</strong> ${missing.join(', ')}<br><br>
-                        <small>열 이름은 대소문자까지 정확히 일치해야 합니다.</small></p>`;
-                    return;
-                }
-            }
-            // ── 디버그 끝 ────────────────────────────────────────────────
-
-            const byYear = {};
-            rows.forEach(r => { const y = r.Year || '기타'; if (!byYear[y]) byYear[y] = []; byYear[y].push(r); });
-            const years = Object.keys(byYear).sort((a, b) => b - a);
-            let num = 1;
-            container.innerHTML = years.map(year => `
-                <div class="pub-year-group">
-                    <div class="pub-year-header">
-                        <span class="pub-year-label">${year}</span>
-                        <div class="pub-year-line"></div>
-                    </div>
-                    <ul class="pub-list">
-                        ${byYear[year].map(r => `
-                        <li class="pub-item">
-                            <span class="pub-number">${num++}</span>
-                            <div class="pub-content">
-                                <div class="pub-title">${r.Title}</div>
-                                <div class="pub-authors">${r.Authors}</div>
-                                <div class="pub-venue">
-                                    <span class="pub-journal">${r.Venue}</span>
-                                    ${r.Type ? `<span class="pub-badge ieee">${r.Type}</span>` : ''}
-                                    ${r.Award ? `<span class="pub-badge best">🏆 ${r.Award}</span>` : ''}
-                                </div>
-                                <div class="pub-links">
-                                    ${r.PDF  ? `<a class="pub-link" href="${r.PDF}"  target="_blank">PDF</a>`  : ''}
-                                    ${r.Code ? `<a class="pub-link" href="${r.Code}" target="_blank">Code</a>` : ''}
-                                    ${r.Link ? `<a class="pub-link" href="${r.Link}" target="_blank">Link</a>` : ''}
-                                </div>
+        let num = 1;
+        document.getElementById('pub-container').innerHTML = years.map(y => `
+            <div class="pub-year-group">
+                <div class="pub-year-header">
+                    <span class="pub-year-label">${y}</span>
+                    <div class="pub-year-line"></div>
+                </div>
+                <ul class="pub-list">
+                    ${byYear[y].map(p => `
+                    <li class="pub-item">
+                        <span class="pub-number">${num++}</span>
+                        <div class="pub-content">
+                            <div class="pub-title">${p.title}</div>
+                            <div class="pub-authors">${formatAuthors(p.authors)}</div>
+                            <div class="pub-venue">
+                                <span class="pub-journal">${p.venue}</span>
+                                ${p.badge ? `<span class="pub-badge ${p.badge}">${BADGE_LABELS[p.badge] || p.badge}</span>` : ''}
                             </div>
-                        </li>`).join('')}
-                    </ul>
-                </div>`).join('');
-            pubsLoaded = true;
-        } catch (e) {
-            const isLoadFail = e.message === 'LOAD_FAIL' || e.message === 'TIMEOUT';
-            const msg = isLoadFail
-                ? `⚠️ 시트를 불러오지 못했습니다.<br><br>
-                   <strong>[해결 방법]</strong><br>
-                   1. 구글 시트 → 파일 → <strong>웹에 게시</strong> → Publications 탭 선택 → 게시<br>
-                   2. 탭 이름이 정확히 <code>Publications</code> 인지 확인<br>
-                   3. GitHub Pages에 올린 후 테스트 (로컬 파일에서는 Chrome이 차단할 수 있음)`
-                : `오류: ${e.message}`;
-            container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2.2;">${msg}</p>`;
-        }
-    }
-
-    let membersLoaded = false;
-    async function loadMembers() {
-        if (membersLoaded) return;
-        const container = document.getElementById('members-container');
-        if (SHEET_ID === 'YOUR_SHEET_ID_HERE') {
-            container.innerHTML = '<p style="color:var(--gray-400);text-align:center;padding:2rem;">⚙️ <code>SHEET_ID</code>를 설정하면 Google Sheets에서 자동으로 불러옵니다.</p>';
-            return;
-        }
-        container.innerHTML = '<p class="loading-msg">멤버 정보 불러오는 중…</p>';
-        try {
-            const rows = await fetchSheet('Members');
-            const categories = ['PhD', 'MS', 'Staff', 'Alumni'];
-            const catLabel = { PhD: 'Ph.D. Students', MS: 'M.S. Students', Staff: 'Research Staff & Visiting', Alumni: 'Alumni' };
-            let html2 = '';
-            categories.forEach(cat => {
-                const members = rows.filter(r => r.Category === cat);
-                if (!members.length) return;
-                if (cat === 'Alumni') {
-                    html2 += `<div class="members-section-title">${catLabel[cat]}</div>
-                    <div class="alumni-grid">
-                        ${members.map(r => `
-                        <div class="member-card-mini">
-                            <div class="member-mini-photo">🎓</div>
-                            <div>
-                                <div class="member-mini-name">${r.Name}</div>
-                                <div class="member-mini-info">${r.Info}</div>
+                            <div class="pub-links">
+                                ${p.doi ? `<a class="pub-link" href="https://doi.org/${p.doi}" target="_blank">DOI</a>` : ''}
+                                ${(p.links||[]).filter(l=>l.text).map(l => l.url
+                                    ? `<a class="pub-link" href="${l.url}" target="_blank">${l.text}</a>`
+                                    : `<a class="pub-link">${l.text}</a>`).join('')}
                             </div>
-                        </div>`).join('')}
-                    </div>`;
-                } else {
-                    html2 += `<div class="members-section-title">${catLabel[cat]}</div>
-                    <div class="members-grid">
-                        ${members.map(r => `
-                        <div class="member-card">
-                            <div class="member-photo">${r.Emoji || '👤'}</div>
-                            <div class="member-body">
-                                <div class="member-role">${r.Role}</div>
-                                <div class="member-name">${r.Name}</div>
-                                <p class="member-desc">${r.Info}</p>
-                            </div>
-                        </div>`).join('')}
-                    </div>`;
-                }
-            });
-            container.innerHTML = html2;
-            membersLoaded = true;
-        } catch (e) {
-            let msg2 = e.message === 'PRIVATE'
-                ? '⚠️ 시트가 비공개입니다. 공유 설정을 확인하세요.'
-                : e.message === 'PARSE_FAIL'
-                ? '⚠️ 탭 이름을 확인하세요. 정확히 <code>Members</code> 이어야 합니다.'
-                : `오류: ${e.message}`;
-            container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2;">${msg2}</p>`;
-        }
-    }
-
-    let newsLoaded = false;
-    async function loadNews() {
-        if (newsLoaded) return;
-        const container = document.getElementById('news-main');
-        if (SHEET_ID === 'YOUR_SHEET_ID_HERE') {
-            container.innerHTML = '<p style="color:var(--gray-400);text-align:center;padding:2rem;">⚙️ <code>SHEET_ID</code>를 설정하면 Google Sheets에서 자동으로 불러옵니다.</p>';
-            return;
-        }
-        container.innerHTML = '<p class="loading-msg">소식 불러오는 중…</p>';
-        try {
-            const rows = await fetchSheet('News');
-            container.innerHTML = rows.map(r => `
-                <div class="news-item">
-                    <div class="news-image">${r.Emoji || '📰'}</div>
-                    <div>
-                        <div class="news-item-meta">
-                            <span class="news-type-tag">${r.Type}</span>
-                            <span class="news-date">${r.Date}</span>
                         </div>
-                        <h3>${r.Title}</h3>
-                        <p>${r.Content}</p>
+                    </li>`).join('')}
+                </ul>
+            </div>`).join('');
+    }
+
+    function renderMembers(members) {
+        const cats = ['PhD','MS','Staff','Alumni'];
+        const labels = { PhD:'Ph.D. Students', MS:'M.S. Students', Staff:'Research Staff & Visiting', Alumni:'Alumni' };
+        let html = '';
+        cats.forEach(cat => {
+            const list = members.filter(m=>m.category===cat);
+            if (!list.length) return;
+            if (cat === 'Alumni') {
+                html += `<div class="members-section-title">${labels[cat]}</div>
+                <div class="alumni-grid">${list.map(m=>`
+                    <div class="member-card-mini">
+                        <div class="member-mini-photo">🎓</div>
+                        <div><div class="member-mini-name">${m.name}</div>
+                        <div class="member-mini-info">${m.info}</div></div>
+                    </div>`).join('')}</div>`;
+            } else {
+                html += `<div class="members-section-title">${labels[cat]}</div>
+                <div class="members-grid">${list.map(m=>`
+                    <div class="member-card">
+                        <div class="member-photo" style="${m.photo ? 'padding:0;overflow:hidden;' : ''}">
+                            ${m.photo
+                                ? `<img src="${m.photo}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover;">`
+                                : (m.emoji || '👤')}
+                        </div>
+                        <div class="member-body">
+                            <div class="member-role">${m.role}</div>
+                            <div class="member-name">${m.name}</div>
+                            <p class="member-desc">${m.info}</p>
+                        </div>
+                    </div>`).join('')}</div>`;
+            }
+        });
+        document.getElementById('members-container').innerHTML = html;
+    }
+
+    function renderNews(news) {
+        document.getElementById('news-main').innerHTML = news.map(n=>`
+            <div class="news-item">
+                <div class="news-image" style="${n.photo ? 'padding:0;overflow:hidden;' : ''}">
+                    ${n.photo
+                        ? `<img src="${n.photo}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`
+                        : (n.emoji || '📰')}
+                </div>
+                <div>
+                    <div class="news-item-meta">
+                        <span class="news-type-tag">${n.type}</span>
+                        <span class="news-date">${n.date}</span>
                     </div>
-                </div>`).join('');
-            newsLoaded = true;
-        } catch (e) {
-            let msg3 = e.message === 'PRIVATE'
-                ? '⚠️ 시트가 비공개입니다. 공유 설정을 확인하세요.'
-                : e.message === 'PARSE_FAIL'
-                ? '⚠️ 탭 이름을 확인하세요. 정확히 <code>News</code> 이어야 합니다.'
-                : `오류: ${e.message}`;
-            container.innerHTML = `<p style="color:#c0392b;text-align:center;padding:2rem;line-height:2;">${msg3}</p>`;
+                    <h3>${n.title}</h3>
+                    <p>${n.content}</p>
+                </div>
+            </div>`).join('');
+    }
+
+    function renderHomeHighlights(pubs, members, news) {
+        const grid = document.getElementById('home-highlights-grid');
+        if (!grid) return;
+        const items = [];
+        // 최신 뉴스 1건
+        if (news && news.length > 0) {
+            const n = news[0];
+            items.push(`<div class="news-card-home" onclick="showPage('news')">
+                <div class="news-date">${n.date}</div>
+                <div class="news-type-tag">${n.type}</div>
+                <h3>${n.title}</h3>
+                <p>${(n.content||'').replace(/<[^>]+>/g,'').substring(0,90)}${n.content && n.content.length > 90 ? '…' : ''}</p>
+            </div>`);
         }
+        // 최신 논문 1건
+        if (pubs && pubs.length > 0) {
+            const p = pubs[0];
+            items.push(`<div class="news-card-home" onclick="showPage('publication')">
+                <div class="news-date">${p.year}</div>
+                <div class="news-type-tag">Publication</div>
+                <h3>${p.title}</h3>
+                <p>${(p.authors||'').replace(/\*\*/g,'')} · <em>${p.venue||''}</em></p>
+            </div>`);
+        }
+        // 현재 멤버 첫 번째 (Alumni 제외)
+        const activeMem = (members||[]).filter(m => m.category !== 'Alumni');
+        if (activeMem.length > 0) {
+            const m = activeMem[0];
+            items.push(`<div class="news-card-home" onclick="showPage('members')">
+                <div class="news-date">${m.role || m.category}</div>
+                <div class="news-type-tag">Members</div>
+                <h3>${m.name}</h3>
+                <p>${(m.info||'').replace(/<br>/g,' · ').replace(/<[^>]+>/g,'')}</p>
+            </div>`);
+        }
+        grid.innerHTML = items.join('');
     }
 
-    // ── MOBILE MENU ──
-    function toggleMobileMenu() {
-        const menu = document.getElementById('mobile-menu');
-        const btn  = document.getElementById('hamburger');
-        menu.classList.toggle('open');
-        btn.classList.toggle('open');
+    // ── INITIALIZATION ───────────────────────────────────────────────
+    async function initData() {
+        if (!WORKER_URL) {
+            // Worker URL 미설정 → SITE_DATA(샘플) 사용
+            renderPublications(SITE_DATA.publications);
+            renderMembers(SITE_DATA.members);
+            renderNews(SITE_DATA.news);
+            renderResearch(SITE_DATA.research || []);
+            renderGallery(SITE_DATA.gallery || []);
+            renderHomeHighlights(SITE_DATA.publications, SITE_DATA.members, SITE_DATA.news);
+            return;
+        }
+
+        // Worker URL 설정됨 → Notion에서 가져오기
+        showLoading('pub-container', 'Publications 불러오는 중…');
+        showLoading('members-container', 'Members 불러오는 중…');
+        showLoading('news-main', 'News 불러오는 중…');
+
+        const [pubsResult, membersResult, newsResult] = await Promise.allSettled([
+            fetchFromWorker('publications'),
+            fetchFromWorker('members'),
+            fetchFromWorker('news'),
+        ]);
+
+        const pubsData    = pubsResult.status    === 'fulfilled' ? pubsResult.value    : null;
+        const membersData = membersResult.status === 'fulfilled' ? membersResult.value : null;
+        const newsData    = newsResult.status    === 'fulfilled' ? newsResult.value    : null;
+
+        if (pubsData)    { renderPublications(pubsData); }
+        else             { showError('pub-container', 'Publications를 불러오지 못했습니다. Worker URL·Notion 설정을 확인하세요.'); }
+
+        if (membersData) { renderMembers(membersData); }
+        else             { showError('members-container', 'Members를 불러오지 못했습니다.'); }
+
+        if (newsData)    { renderNews(newsData); }
+        else             { showError('news-main', 'News를 불러오지 못했습니다.'); }
+        renderResearch(SITE_DATA.research || []);
+        renderGallery(SITE_DATA.gallery || []);
+        renderHomeHighlights(pubsData || [], membersData || [], newsData || []);
     }
-    function closeMobileMenu() {
-        document.getElementById('mobile-menu').classList.remove('open');
+
+
+
+    // ── MOBILE MENU ──────────────────────────────────────────────────
+    function toggleMenu() {
+        document.getElementById('hamburger').classList.toggle('open');
+        document.getElementById('mobile-menu').classList.toggle('open');
+    }
+    function closeMenu() {
         document.getElementById('hamburger').classList.remove('open');
+        document.getElementById('mobile-menu').classList.remove('open');
     }
+    document.addEventListener('click', function(e) {
+        const btn = document.getElementById('hamburger');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
+            btn.classList.remove('open'); menu.classList.remove('open');
+        }
+    });
 
-    // ── PAGE NAVIGATION ──
+    // ── PAGE NAVIGATION ──────────────────────────────────────────────
     function showPage(page) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
         document.querySelectorAll('.mobile-menu a').forEach(a => a.classList.remove('active'));
+        const ml = document.getElementById('m-nav-' + page);
+        if (ml) ml.classList.add('active');
         document.getElementById('page-' + page).classList.add('active');
         document.getElementById('nav-' + page).classList.add('active');
-        const mnavEl = document.getElementById('mnav-' + page);
-        if (mnavEl) mnavEl.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        if (page === 'news') {
-            loadGallery();
-            loadCalendar();
-            loadNews();
-        }
-        if (page === 'publication') loadPublications();
-        if (page === 'members') loadMembers();
+        if (page === 'news') { renderGallery(SITE_DATA.gallery || []); }
     }
 
     window.addEventListener('scroll', () => {
         document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
     });
 
-    function filterPubs(btn, type) {
+    function filterPubs(btn, cat) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        const filtered = cat === 'all' ? ALL_PUBS : ALL_PUBS.filter(p => p.category === cat);
+        renderPubsByFilter(filtered);
     }
 
-    // ── GOOGLE DRIVE PHOTO GALLERY ──
-    let galleryLoaded = false;
-    async function loadGallery() {
-        if (galleryLoaded) return;
-        const grid = document.getElementById('gallery-grid');
-        if (DRIVE_FOLDER_ID === 'YOUR_GOOGLE_DRIVE_FOLDER_ID') {
-            grid.innerHTML = `<div class="gallery-loading" style="grid-column:1/-1;">
-                ⚙️ <code>DRIVE_FOLDER_ID</code>를 설정하면<br>Google Drive 사진이 자동으로 표시됩니다.</div>`;
-            return;
-        }
-        try {
-            const url = `https://www.googleapis.com/drive/v3/files`
-                + `?q='${DRIVE_FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'`
-                + `&key=${DRIVE_API_KEY}&fields=files(id,name)&pageSize=9&orderBy=createdTime+desc`;
-            const res  = await fetch(url);
-            const data = await res.json();
-            if (!data.files || data.files.length === 0) {
-                grid.innerHTML = `<div class="gallery-loading" style="grid-column:1/-1;">폴더에 이미지가 없습니다.</div>`;
-                return;
-            }
-            grid.innerHTML = data.files.map(f => `
-                <div class="gallery-photo" onclick="window.open('https://drive.google.com/file/d/${f.id}/view','_blank')">
-                    <img src="https://drive.google.com/thumbnail?id=${f.id}&sz=w300" alt="${f.name}" loading="lazy">
+    // ── RESEARCH 렌더링 ─────────────────────────────────────────────
+    function renderResearch(research) {
+        const grid = document.getElementById('research-grid');
+        const homeGrid = document.getElementById('home-research-grid');
+        if (!research || !research.length) return;
+        const cards = research.map(r => `
+            <div class="research-card" onclick="showPage('research')" style="cursor:pointer;">
+                <div class="research-abstract" style="background: ${r.color || 'linear-gradient(135deg,#0a3060,#1a5fa0)'};">
+                    <span class="research-abstract-label">${r.status || 'Active'}</span>
+                    <span class="research-abstract-emoji">${r.emoji || '🔬'}</span>
+                </div>
+                <div class="research-body">
+                    <h3>${r.title}</h3>
+                    <p>${r.description}</p>
+                    <div class="research-tags">
+                        ${(r.tags||[]).map(t=>`<span class="research-tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+            </div>`).join('');
+        if (grid) grid.innerHTML = cards;
+        // 홈페이지 preview: 처음 2개
+        if (homeGrid) {
+            homeGrid.innerHTML = research.slice(0,2).map(r => `
+                <div class="research-card" onclick="showPage('research')" style="cursor:pointer;">
+                    <div class="research-abstract" style="background: ${r.color || 'linear-gradient(135deg,#0a3060,#1a5fa0)'};">
+                        <span class="research-abstract-label">${r.status || 'Active'}</span>
+                        <span class="research-abstract-emoji">${r.emoji || '🔬'}</span>
+                    </div>
+                    <div class="research-body">
+                        <h3>${r.title}</h3>
+                        <p>${r.description.substring(0,160)}…</p>
+                        <div class="research-tags">
+                            ${(r.tags||[]).slice(0,3).map(t=>`<span class="research-tag">${t}</span>`).join('')}
+                        </div>
+                    </div>
                 </div>`).join('');
-            galleryLoaded = true;
-        } catch (e) {
-            grid.innerHTML = `<div class="cal-error" style="grid-column:1/-1;">사진을 불러오지 못했습니다.<br>API 키 또는 폴더 공개 설정을 확인하세요.</div>`;
         }
     }
 
-    // ── GOOGLE CALENDAR EVENTS ──
-    let calendarLoaded = false;
-    async function loadCalendar() {
-        if (calendarLoaded) return;
-        const container = document.getElementById('calendar-events');
-        if (CALENDAR_ID.startsWith('YOUR_')) {
-            container.innerHTML = `<div class="cal-error">
-                ⚙️ <code>CALENDAR_ID</code>를 설정하면<br>Google Calendar 일정이 자동으로 표시됩니다.</div>`;
+    // ── GALLERY 렌더링 (관리자에서 관리) ─────────────────────────────
+    function renderGallery(gallery) {
+        const grid = document.getElementById('gallery-grid');
+        if (!grid) return;
+        const photos = (gallery || []).filter(g => g.photo);
+        if (!photos.length) {
+            grid.innerHTML = '<div class="gallery-loading" style="grid-column:1/-1;text-align:center;font-size:0.8rem;color:var(--gray-400);padding:1rem;">관리자에서 사진을 추가하세요.</div>';
             return;
         }
-        try {
-            const now = new Date().toISOString();
-            const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events`
-                + `?key=${CAL_API_KEY}&orderBy=startTime&singleEvents=true`
-                + `&timeMin=${now}&maxResults=5&fields=items(summary,start,location)`;
-            const res  = await fetch(url);
-            const data = await res.json();
-            if (!data.items || data.items.length === 0) {
-                container.innerHTML = `<div class="cal-error">예정된 이벤트가 없습니다.</div>`;
-                return;
-            }
-            container.innerHTML = data.items.map(ev => {
-                const dt = ev.start.dateTime || ev.start.date;
-                const d  = new Date(dt);
-                const dateStr = d.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', year: 'numeric' });
-                return `<div class="cal-event">
-                    <div class="cal-event-date">${dateStr}</div>
-                    <div class="cal-event-title">${ev.summary}</div>
-                    ${ev.location ? `<div class="cal-event-location">📍 ${ev.location}</div>` : ''}
-                </div>`;
-            }).join('');
-            calendarLoaded = true;
-        } catch (e) {
-            container.innerHTML = `<div class="cal-error">일정을 불러오지 못했습니다.<br>API 키 또는 캘린더 공개 설정을 확인하세요.</div>`;
-        }
+        grid.innerHTML = photos.map(g => `
+            <div class="gallery-photo" title="${g.caption||''}">
+                <img src="${g.photo}" alt="${g.caption||'Lab photo'}" loading="lazy">
+            </div>`).join('');
     }
+
+    // ── START ────────────────────────────────────────────────────────
+    initData();
 </script>
 </body>
 </html>
