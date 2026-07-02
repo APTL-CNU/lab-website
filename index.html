@@ -388,9 +388,9 @@
         .pub-item {
             display: flex;
             gap: 1rem;
-            padding: 1.125rem 1.25rem;
+            padding: 0.7rem 1.25rem;
             border-radius: 10px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.15rem;
             border: 1px solid transparent;
             transition: var(--transition);
         }
@@ -421,6 +421,10 @@
             transition: var(--transition);
         }
         .pub-link:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .pub-link-doi { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+        .pub-link-doi:hover { background: #bbdefb; border-color: #1565c0; color: #0d47a1; }
+        .pub-link-pdf { background: #fce4ec; border-color: #f48fb1; color: #c62828; }
+        .pub-link-pdf:hover { background: #f8bbd0; border-color: #c62828; color: #b71c1c; }
 
         /* ── MEMBERS ── */
         .members-section-title {
@@ -542,6 +546,52 @@
             transition: var(--transition);
         }
         .gallery-item:hover { transform: scale(1.06); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        /* Lightbox */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .lightbox-overlay.open { display: flex; }
+        .lightbox-inner {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .lightbox-inner img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+        .lightbox-caption {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.88rem;
+            text-align: center;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -2.5rem;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+            opacity: 0.8;
+        }
+        .lightbox-close:hover { opacity: 1; }
 
         /* ── FOOTER ── */
         footer { background: var(--navy); color: rgba(255,255,255,0.55); padding: 3rem 0 2rem; }
@@ -739,17 +789,6 @@
         </div>
     </div>
 
-    <section>
-        <div class="container">
-            <div class="section-header">
-                <div class="section-tag">Latest Updates</div>
-                <h2 class="section-title">News & Highlights</h2>
-                <p class="section-subtitle">Recent achievements, publications, and events from our lab.</p>
-            </div>
-            <div class="news-grid-home" id="home-highlights-grid"></div>
-        </div>
-    </section>
-
     <section class="bg-alt">
         <div class="container">
             <div class="section-header">
@@ -761,6 +800,17 @@
             <div style="text-align:center; margin-top:2rem;">
                 <button class="btn-primary" onclick="showPage('research')">View All Research →</button>
             </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Latest Updates</div>
+                <h2 class="section-title">News & Highlights</h2>
+                <p class="section-subtitle">Recent achievements, publications, and events from our lab.</p>
+            </div>
+            <div class="news-grid-home" id="home-highlights-grid"></div>
         </div>
     </section>
 
@@ -1004,7 +1054,7 @@
                     <div class="sidebar-widget">
                         <h3>🔔 Quick Links</h3>
                         <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                            <a class="prof-link" style="font-size:0.8rem;">📋 &nbsp;Join Our Lab</a>
+                            <a class="prof-link" href="mailto:seho.kweon@jnu.ac.kr" style="font-size:0.8rem;">📋 &nbsp;Join Our Lab</a>
                             <a class="prof-link" style="font-size:0.8rem;">🔗 &nbsp;Google Scholar</a>
                             <a class="prof-link" style="font-size:0.8rem;">🐱 &nbsp;GitHub</a>
                         </div>
@@ -1023,6 +1073,15 @@
     </footer>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-inner">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img id="lightbox-img" src="" alt="">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+</div>
+
 <script>
 // ══ CONFIG ═══════════════════════════════════════════════════════════
 // Cloudflare Worker URL을 입력하세요.
@@ -1038,7 +1097,7 @@ const SITE_DATA = {
       "year": 2026,
       "category": "Journal",
       "title": "Charge-based supramolecular peptide nanocomplexes for oral delivery via transporter-driven endocytosis",
-      "authors": "So-Hyeon Park, , Gaeun Ma, Seong Jin Park, Seong-Bin Yang, Minho Seo, Jun-Hyuck Lee, Seho Kweon, Jooho Park",
+      "authors": "So-Hyeon Park, Gaeun Ma, Seong Jin Park, Seong-Bin Yang, Minho Seo, Jun-Hyuck Lee, Seho Kweon, Jooho Park",
       "venue": "Biomaterials 329 (2026) 123903",
       "badge": "",
       "doi": "10.1016/j.biomaterials.2025.123903",
@@ -1053,7 +1112,7 @@ const SITE_DATA = {
       "year": 2026,
       "category": "Journal",
       "title": "Protein corona-guided delivery of dextran-PLGA NPs for enhanced dendritic cell uptake, maturation and improved cancer immunotherapy",
-      "authors": "An Thi Thanh Vu#, Prabhat Shrestha#, Thu-Huyen Le Thi, Anil Giri, Khang-Yen Pham, Thoa Thi Kim Nguyen, Jinkyung Cho, Seho Kweon, Na Kyeong Lee, In-Sun Hong, Taeg Kyu Kwon, Jong-Sun Kang, Jee-Heon Jeon, Shimmyung Yook*",
+      "authors": "An Thi Thanh Vu¹, Prabhat Shrestha¹, Thu-Huyen Le Thi, Anil Giri, Khang-Yen Pham, Thoa Thi Kim Nguyen, Jinkyung Cho, Seho Kweon, Na Kyeong Lee, In-Sun Hong, Taeg Kyu Kwon, Jong-Sun Kang, Jee-Heon Jeon, Shimmyung Yook*",
       "venue": "Journal of Controlled Release 392 (2026) 114733",
       "badge": "",
       "doi": "10.1016/j.jconrel.2026.114733",
@@ -1083,7 +1142,7 @@ const SITE_DATA = {
       "year": 2026,
       "category": "Journal",
       "title": "Esterase-reponsive albumin-binding PROTAC-mediated BRD4 degradation for cancer immunotherapy",
-      "authors": "Hoyeon Lee#, Sojin Jeong#, Juwon Park#, Hye-jeong Son, Seho Kweon, Steve Seung-Young Lee, Nayeon Shim, Yoojeong Oh, Hyein Kang, Chaerin Lee, Jihyeon Lee, Jinseong Kim, Hanhee Cho*, Kwangmeyung Kim*",
+      "authors": "Hoyeon Lee¹, Sojin Jeong¹, Juwon Park¹, Hye-jeong Son, Seho Kweon, Steve Seung-Young Lee, Nayeon Shim, Yoojeong Oh, Hyein Kang, Chaerin Lee, Jihyeon Lee, Jinseong Kim, Hanhee Cho*, Kwangmeyung Kim*",
       "venue": "Theranostics 2026, 16 ,11",
       "badge": "",
       "doi": "10.7150/thno.130510",
@@ -1098,7 +1157,7 @@ const SITE_DATA = {
       "year": 2026,
       "category": "Journal",
       "title": "ROS-responsive nanocarriers for the delivery of atorvastatin in ischemic MCAO rats promoting neuroprotection",
-      "authors": "Raveena Nagareddy1, Aravindkumar Sundaram1,vJa-hae Kim1,  Ji hye Kim, Shyam Vasvani, Seho Kweon, In-Kyu Park*, Yong Yeon Jeong*, Kang-Ho Choi*",
+      "authors": "Raveena Nagareddy¹, Aravindkumar Sundaram¹, Ja-hae Kim¹, Ji hye Kim, Shyam Vasvani, Seho Kweon, In-Kyu Park*, Yong Yeon Jeong*, Kang-Ho Choi*",
       "venue": "Materials Today Bio 38 (2026) 103296",
       "badge": "",
       "doi": "10.1016/j.mtbio.2026.103296",
@@ -1113,7 +1172,7 @@ const SITE_DATA = {
       "year": 2025,
       "category": "Journal",
       "title": "Cell-Penetrating Peptide Like Anti-Programmed Cell Death-Ligand 1 Peptide Conjugate-Based Self-Assembled Nanoparticles for Immunogenic Photodynamic Therapy",
-      "authors": "un-Hyuck Lee, Seong-Bin Yang, Seong Jin Park, Seho Kweon, Gaeun Ma, Minho Seo, Ha Rin Kim, Tae-Bong Kang, Ji-Hong Lim*, Jooho Park*",
+      "authors": "Jun-Hyuck Lee, Seong-Bin Yang, Seong Jin Park, Seho Kweon, Gaeun Ma, Minho Seo, Ha Rin Kim, Tae-Bong Kang, Ji-Hong Lim*, Jooho Park*",
       "venue": "ACS Nano 2025, 19, 2870–2889",
       "badge": "",
       "doi": "10.1021/acsnano.4c16128",
@@ -1128,7 +1187,7 @@ const SITE_DATA = {
       "year": 2025,
       "category": "Journal",
       "title": "CD44-Targeted Nanoparticles for Remodeling the Tumor Microenvironment in a 3D Macrophage-Embedded Ovarian Cancer Model with Stem Cell-Like Features",
-      "authors": "Samjhana Shrestha*, Anil Giri*, Prabhat Shrestha, Seho Kweon, In-Sun Hong, Jong Ho Park, Jong-Sun Kang, Jee-Heon Jeong, Ha Rin Kimh,**, Simmyung Yook**",
+      "authors": "Samjhana Shrestha¹, Anil Giri¹, Prabhat Shrestha, Seho Kweon, In-Sun Hong, Jong Ho Park, Jong-Sun Kang, Jee-Heon Jeong, Ha Rin Kimh*, Simmyung Yook*",
       "venue": "International Journal of Pharmaceutics 674 (2025) 125483",
       "badge": "",
       "doi": "10.1016/j.ijpharm.2025.125483",
@@ -1158,7 +1217,7 @@ const SITE_DATA = {
       "year": 2025,
       "category": "Journal",
       "title": "PEGylation-based surface engineering of islets with microparticles co-delivery for enhanced engraftment in streptozocin-induced hyperglycemic murine model",
-      "authors": "Prakash Shrestha, Shiva Pathak, Dinesh Chaudhary, Shobha Regmi, Manju Shrestha, Pawan Kumar Raut, Ju-Yeon Kim, Gorka Orive, Ha Rin Kim, Na Kyeong Lee, Seho Kweon, Jooho Park, Jeong Uk Choi, Simmyung Yook, Jee-Heon Jeong",
+      "authors": "Prakash Shrestha, Shiva Pathak, Dinesh Chaudhary, Shobha Regmi, Manju Shrestha, Pawan Kumar Raut, Ju-Yeon Kim, Gorka Orive, Ha Rin Kim, Na Kyeong Lee, Seho Kweon, Jooho Park, Jeong Uk Choi, Simmyung Yook, Jee-Heon Jeong*",
       "venue": "Chemical Engineering Journal 521 (2025) 166657",
       "badge": "",
       "doi": "10.1016/j.cej.2025.166657",
@@ -1173,7 +1232,7 @@ const SITE_DATA = {
       "year": 2025,
       "category": "Journal",
       "title": "An oral liraglutide nanomicelle formulation conferring reduced insulin-resistance and long-term hypoglycemic and lipid metabolic benefits",
-      "authors": "Laxman Subedi1, Arjun Dhwoj Bamjan1, Susmita Phuyal, Jung-Hyun Shim, Seung-Sik Cho, Jong Bae Seo, Kwan-Young Chang, Youngro Byun, Seho Kweon*, Jin Woo Park*",
+      "authors": "Laxman Subedi¹, Arjun Dhwoj Bamjan¹, Susmita Phuyal, Jung-Hyun Shim, Seung-Sik Cho, Jong Bae Seo, Kwan-Young Chang, Youngro Byun, Seho Kweon*, Jin Woo Park*",
       "venue": "Journal of Controlled Release 378 (2025) 637-655",
       "badge": "",
       "doi": "10.1016/j.jconrel.2024.12.039",
@@ -1203,7 +1262,7 @@ const SITE_DATA = {
       "year": 2024,
       "category": "Journal",
       "title": "Design and development of novel self-assembled catechol-modified bile acid conjugates as pH-responsive apical sodium dependent bile acid transporter targeting nanoparticles",
-      "authors": "Dong-Nyeong Lee1 , Seong-Bin Yang1 , Seho Kweon1 , Jun-Hyuck Lee, Kyeong-Ju Lee, Yeonsu Ryu, Dong Wook Shin, Young Jun Kim, Yong-Kyu Lee*, Jooho Park*",
+      "authors": "Dong-Nyeong Lee¹, Seong-Bin Yang¹, Seho Kweon¹, Jun-Hyuck Lee, Kyeong-Ju Lee, Yeonsu Ryu, Dong Wook Shin, Young Jun Kim, Yong-Kyu Lee*, Jooho Park*",
       "venue": "Biomaterials 308 (2024) 122539",
       "badge": "",
       "doi": "10.1016/j.biomaterials.2024.122539",
@@ -1233,7 +1292,7 @@ const SITE_DATA = {
       "year": 2024,
       "category": "Journal",
       "title": "Stimulating macropinocytosis of peptide-drug conjugates through DNA-dependent protein kinase inhibition for treating KRAS-mutant cancer",
-      "authors": "Ha Rin Kim1, Seong Jin Park1, Young Seok Cho, Mudhibadhi Knowledge Moyo, Jeong Uk Choi, Na Kyeong Lee, Seung Woo Chung, Seho Kweon, Jooho Park, Byoungmo Kim, Yoon Gun Ko, Joo Hye Yeo, Jinu Lee, Sang Yoon Kim, Youngro Byun*",
+      "authors": "Ha Rin Kim¹, Seong Jin Park¹, Young Seok Cho, Mudhibadhi Knowledge Moyo, Jeong Uk Choi, Na Kyeong Lee, Seung Woo Chung, Seho Kweon, Jooho Park, Byoungmo Kim, Yoon Gun Ko, Joo Hye Yeo, Jinu Lee, Sang Yoon Kim, Youngro Byun*",
       "venue": "Journal of Controlled Release 372 (2024) 176-193",
       "badge": "",
       "doi": "10.1016/j.jconrel.2024.06.028",
@@ -1248,7 +1307,7 @@ const SITE_DATA = {
       "year": 2024,
       "category": "Journal",
       "title": "Nano-anticoagulant based on carrier-free low molecular weight heparin and octadecylamine with an albumin shuttling effect",
-      "authors": "Jae-Hyeon Lee#, Hansol Lim#, Gaeun Ma, Seho Kweon*, Seong Jin Park, Minho Seo, Jun-Hyuck Lee, Seong-Bin Yang, Han-Gil Jeong, Jooho Park*",
+      "authors": "Jae-Hyeon Lee¹, Hansol Lim¹, Gaeun Ma, Seho Kweon*, Seong Jin Park, Minho Seo, Jun-Hyuck Lee, Seong-Bin Yang, Han-Gil Jeong, Jooho Park*",
       "venue": "Nature Communications 2024, 15:6769",
       "badge": "",
       "doi": "10.1038/s41467-024-50819-7",
@@ -1263,7 +1322,7 @@ const SITE_DATA = {
       "year": 2023,
       "category": "Journal",
       "title": "In situ hypoxia modulating nano-catalase for amplifying DNA damage in radiation resistive colon tumors",
-      "authors": "Subin Kim#, Aravindkumar Sundaram#, Ansuja Pulickal Mathew, Vasvani Shyam Hareshkumar, Adityanarayan Mohapatra, Reju George Thomas, Thinh T. M. Bui, Kyuho Moon, Seho Kweon, In-Kyu Park*, Yong Yeon Jeong*",
+      "authors": "Subin Kim¹, Aravindkumar Sundaram¹, Ansuja Pulickal Mathew, Vasvani Shyam Hareshkumar, Adityanarayan Mohapatra, Reju George Thomas, Thinh T. M. Bui, Kyuho Moon, Seho Kweon, In-Kyu Park*, Yong Yeon Jeong*",
       "venue": "Biomaterials Science 2023, 11, 6177",
       "badge": "",
       "doi": "10.1039/d3bm00618b",
@@ -1278,7 +1337,7 @@ const SITE_DATA = {
       "year": 2023,
       "category": "Journal",
       "title": "Design of chimeric GLP-1A using oligomeric bile acids to utilize transporter-mediated endocytosis for oral delivery",
-      "authors": "Seho Kweon#, Jun‑Hyuck Lee#, Seong‑Bin Yang, Seong Jin Park, Laxman Subedi, Jung‑Hyun Shim, Seung‑Sik Cho, Jeong Uk Choi, Youngro Byun, Jooho Park*, Jin Woo Park  *",
+      "authors": "Seho Kweon¹, Jun‑Hyuck Lee¹, Seong‑Bin Yang, Seong Jin Park, Laxman Subedi, Jung‑Hyun Shim, Seung‑Sik Cho, Jeong Uk Choi, Youngro Byun, Jooho Park*, Jin Woo Park  *",
       "venue": "Biomaterials Research (2023) 27:83",
       "badge": "",
       "doi": "10.1186/s40824-023-00421-7",
@@ -1293,7 +1352,7 @@ const SITE_DATA = {
       "year": 2022,
       "category": "Journal",
       "title": "A novel oral metronomic chemotherapy provokes tumor specific immunity resulting in colon cancer eradication in combination with anti-PD-1 therapy",
-      "authors": "Ruby Maharjan#, Jeong Uk Choi#, Seho Kweon, Rudra Pangeni, Na Kyeong Lee, Seong Jin Park, Kwan-Young Chang, Jin Woo Park*, Youngro Byun*",
+      "authors": "Ruby Maharjan¹, Jeong Uk Choi¹, Seho Kweon, Rudra Pangeni, Na Kyeong Lee, Seong Jin Park, Kwan-Young Chang, Jin Woo Park*, Youngro Byun*",
       "venue": "Biomaterials 281 (2022) 121334",
       "badge": "",
       "doi": "10.1016/j.biomaterials.2021.121334",
@@ -1308,7 +1367,7 @@ const SITE_DATA = {
       "year": 2022,
       "category": "Journal",
       "title": "Metronomic dose-finding approach in oral chemotherapy by experimentally-driven integrative mathematical modeling",
-      "authors": "Seho Kweon#, Yoo-Seong Jeong#, Seung Woo Chung, Hanul Lee, Ha Kyeong Lee, Seong Jin Park, Jeong Uk Choi, Jooho Park, Suk-Jae Chung*, Youngro Byun*",
+      "authors": "Seho Kweon¹, Yoo-Seong Jeong¹, Seung Woo Chung, Hanul Lee, Ha Kyeong Lee, Seong Jin Park, Jeong Uk Choi, Jooho Park, Suk-Jae Chung*, Youngro Byun*",
       "venue": "Biomaterials 286 (2022) 121584",
       "badge": "",
       "doi": "10.1016/j.biomaterials.2022.121584",
@@ -1338,7 +1397,7 @@ const SITE_DATA = {
       "year": 2021,
       "category": "Journal",
       "title": "Dual mechanistic TRAIL nanocarrier based on PEGylated heparin taurocholate and protamine which exerts both pro-apoptotic and anti-angiogenic effects",
-      "authors": "Jeong Uk Choi#, Ji-young Kim#, Seung Woo Chung, Na Kyeong Lee, Jooho Park, Seho Kweon, Young Seok Cho, Ha Rin Kim, Sung Mook Lim, Jin Woo Park, Kang Choon Lee, Youngro Byun*",
+      "authors": "Jeong Uk Choi¹, Ji-young Kim¹, Seung Woo Chung, Na Kyeong Lee, Jooho Park, Seho Kweon, Young Seok Cho, Ha Rin Kim, Sung Mook Lim, Jin Woo Park, Kang Choon Lee, Youngro Byun*",
       "venue": "Journal of Controlled Release 336 (2021) 181-191",
       "badge": "",
       "doi": "10.1016/j.jconrel.2021.06.019",
@@ -1368,7 +1427,7 @@ const SITE_DATA = {
       "year": 2020,
       "category": "Journal",
       "title": "Enhanced oral bioavailability of an etoposide multiple nanoemulsion incorporating a deoxycholic acid derivative-lipid complex",
-      "authors": "Saurav Kumar Jha#, Hee-Soo Han#, Laxman Subedi, Rudra Pangeni, Jee Young Chung, Seho Kweon, Jeong Uk Choi, Youngro Byun, Yong-Hee Kim, Jin Woo Park",
+      "authors": "Saurav Kumar Jha¹, Hee-Soo Han¹, Laxman Subedi, Rudra Pangeni, Jee Young Chung, Seho Kweon, Jeong Uk Choi, Youngro Byun, Yong-Hee Kim, Jin Woo Park",
       "venue": "Drug Delivery 2020, 27:1, 1501-1513",
       "badge": "",
       "doi": "10.1080/10717544.2020.1837293",
@@ -1383,7 +1442,7 @@ const SITE_DATA = {
       "year": 2020,
       "category": "Journal",
       "title": "Improvements in the Oral Absorption and Anticancer Efficacy of an Oxaliplatin-Loaded Solid Formulation: Pharmacokinetic Properties in Rats and Nonhuman Primates and the Effects of Oral Metronomic Dosing on Colorectal Cancer",
-      "authors": "Rudra Pangeni*, Laxman Subedi*, Saurav Kumar Jha, Seho Kweon, Seo-Hee Kang, Kwan-Young Chang, Jeong Uk Choi, Youngro Byun, Jin Woo Park*",
+      "authors": "Rudra Pangeni¹, Laxman Subedi¹, Saurav Kumar Jha, Seho Kweon, Seo-Hee Kang, Kwan-Young Chang, Jeong Uk Choi, Youngro Byun, Jin Woo Park*",
       "venue": "International Journal of Nanomedicine 2020:15 7719-7743",
       "badge": "",
       "doi": "10.2147/IJN.S267424",
@@ -1398,7 +1457,7 @@ const SITE_DATA = {
       "year": 2020,
       "category": "Journal",
       "title": "Enhanced antitumor efficacy of bile acid-lipid complex-anchored docetaxel nanoemulsion via oral metronomic scheduling",
-      "authors": "Saurav Kumar Jhaa#, Jee Young Chung# , Rudra Pangeni, Hyeong Seok Choi, Laxman Subedi, Seho Kweon, Jeong Uk Choi, Youngro Byun, Yong-Hee Kim*, Jin Woo Park*",
+      "authors": "Saurav Kumar Jhaa¹, Jee Young Chung¹, Rudra Pangeni, Hyeong Seok Choi, Laxman Subedi, Seho Kweon, Jeong Uk Choi, Youngro Byun, Yong-Hee Kim*, Jin Woo Park*",
       "venue": "Journal of Controlled Release (2020) 368-394",
       "badge": "",
       "doi": "10.1016/j.jconrel.2020.08.067",
@@ -1428,7 +1487,7 @@ const SITE_DATA = {
       "year": 2018,
       "category": "Journal",
       "title": "Metronomic oral doxorubicin in combination of Chk1 inhibitor MK-8776 for p53-deficient breast cancer treatment",
-      "authors": "Seung Woo Chung#, Gui Chul Kim# , Seho Kweon, Hanul Lee, Jeong Uk Choia , Foyez Mahmud, Hyo Won Chang, Ji Won Kim, Woo-Chan Son, Sang Yoon Kim*, Youngro Byun*",
+      "authors": "Seung Woo Chung¹, Gui Chul Kim¹, Seho Kweon, Hanul Lee, Jeong Uk Choia , Foyez Mahmud, Hyo Won Chang, Ji Won Kim, Woo-Chan Son, Sang Yoon Kim*, Youngro Byun*",
       "venue": "Biomaterials 182 (2018), 35-43",
       "badge": "",
       "doi": "10.1016/j.biomaterials.2018.08.007",
@@ -1443,7 +1502,7 @@ const SITE_DATA = {
       "year": 2017,
       "category": "Journal",
       "title": "Radiotherapy-assisted tumor selective metronomic oral chemotherapy",
-      "authors": "Seung Woo Chung#, Seho Kweon, Beom Suk Lee, Gui Chul Kim, Foyez Mahmud, Hanul Lee, Young Seok Cho, Jeong Uk Choi, Ok-Cheol Jeon, Ji Won Kim, Seong Who Kim, In-San Kim, Sang Yoon Kim, Youngro Byun*",
+      "authors": "Seung Woo Chung¹, Seho Kweon, Beom Suk Lee, Gui Chul Kim, Foyez Mahmud, Hanul Lee, Young Seok Cho, Jeong Uk Choi, Ok-Cheol Jeon, Ji Won Kim, Seong Who Kim, In-San Kim, Sang Yoon Kim, Youngro Byun*",
       "venue": "International Journal of Cancer (2017); 141, 1912-1920",
       "badge": "",
       "doi": "",
@@ -1492,7 +1551,7 @@ const SITE_DATA = {
       "photo": "images/members/DedongYu.jpg",
       "name": "Dedong Yu",
       "role": "Ph.D. candidate; '25.Sep~",
-      "info": "Current work: Building biomaterial to enable multi-route delivery of drugs, Peptide engineering, focusing on addressing inflammatory diseases"
+      "info": "<strong>Current work</strong>: Building biomaterial to enable multi-route delivery of drugs, Peptide engineering, focusing on addressing inflammatory diseases"
     },
     {
       "category": "MS",
@@ -1617,12 +1676,20 @@ const SITE_DATA = {
       "caption": ""
     },
     {
+      "photo": "images/gallery/20260630.jpeg",
+      "caption": "Lab Picnic @Damyang '26 Jun"
+    },
+    {
+      "photo": "images/gallery/260515.jpeg",
+      "caption": "'26 Teacher's Day"
+    },
+    {
       "photo": "images/gallery/20260114.jpeg",
       "caption": "OpenLab '26"
     },
     {
-      "photo": "images/gallery/20260630.jpeg",
-      "caption": "Lab picnic @Damyang"
+      "photo": "images/gallery/250625.jpeg",
+      "caption": "The 4th Korea-Japan Young Scientist Workshop on Pharmaceutics"
     }
   ]
 };
@@ -1693,10 +1760,10 @@ const SITE_DATA = {
                                 ${p.badge ? `<span class="pub-badge ${p.badge}">${BADGE_LABELS[p.badge] || p.badge}</span>` : ''}
                             </div>
                             <div class="pub-links">
-                                ${p.doi ? `<a class="pub-link" href="https://doi.org/${p.doi}" target="_blank">DOI</a>` : ''}
+                                ${p.doi ? `<a class="pub-link pub-link-doi" href="https://doi.org/${p.doi}" target="_blank">DOI</a>` : ''}
                                 ${(p.links||[]).filter(l=>l.text).map(l => l.url
-                                    ? `<a class="pub-link" href="${l.url}" target="_blank">${l.text}</a>`
-                                    : `<a class="pub-link">${l.text}</a>`).join('')}
+                                    ? `<a class="pub-link${l.text==='PDF'?' pub-link-pdf':''}" href="${l.url}" target="_blank">${l.text}</a>`
+                                    : `<a class="pub-link${l.text==='PDF'?' pub-link-pdf':''}">${l.text}</a>`).join('')}
                             </div>
                         </div>
                     </li>`).join('')}
@@ -1941,10 +2008,24 @@ const SITE_DATA = {
             return;
         }
         grid.innerHTML = photos.map(g => `
-            <div class="gallery-photo" title="${g.caption||''}">
+            <div class="gallery-photo" title="${g.caption||''}" style="cursor:pointer;" onclick="openLightbox('${g.photo}','${(g.caption||'').replace(/'/g,"\\'")}')">
                 <img src="${g.photo}" alt="${g.caption||'Lab photo'}" loading="lazy">
             </div>`).join('');
     }
+
+    function openLightbox(src, caption) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox-caption').textContent = caption || '';
+        document.getElementById('lightbox').classList.add('open');
+        document.addEventListener('keydown', _lbKey);
+    }
+    function closeLightbox(e) {
+        if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+        document.getElementById('lightbox').classList.remove('open');
+        document.getElementById('lightbox-img').src = '';
+        document.removeEventListener('keydown', _lbKey);
+    }
+    function _lbKey(e) { if (e.key === 'Escape') { document.getElementById('lightbox').classList.remove('open'); document.removeEventListener('keydown', _lbKey); } }
 
     // ── START ────────────────────────────────────────────────────────
     initData();
