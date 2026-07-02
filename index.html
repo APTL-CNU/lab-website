@@ -249,7 +249,7 @@
         .breadcrumb span { color: var(--accent); }
 
         /* ── PROFESSOR ── */
-        .prof-layout { display: grid; grid-template-columns: 300px 1fr; gap: 4rem; align-items: start; }
+        .prof-layout { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; align-items: start; }
         .prof-photo-card { position: sticky; top: 90px; }
         .prof-photo {
             width: 100%;
@@ -260,7 +260,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 5rem;
+            font-size: 4rem;
             overflow: hidden;
         }
         .prof-links { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -433,7 +433,7 @@
             gap: 0.875rem;
         }
         .members-section-title::after { content: ''; flex: 1; height: 1px; background: var(--gray-200); }
-        .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.375rem; margin-bottom: 3rem; }
+        .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 210px)); gap: 1.25rem; margin-bottom: 3rem; }
         .member-card {
             background: var(--white);
             border: 1px solid var(--gray-200);
@@ -445,14 +445,18 @@
         .member-card:hover { border-color: var(--accent); box-shadow: 0 12px 30px rgba(0,0,0,0.07); transform: translateY(-4px); }
         .member-photo {
             width: 100%;
-            aspect-ratio: 1;
+            aspect-ratio: 4/3;
             background: linear-gradient(135deg, #E2E8F0, #F1F5F9);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 2.25rem;
         }
-        .member-body { padding: 1.125rem 1rem; }
+        .member-body { padding: 0.875rem 0.875rem 1rem; }
+        .member-edu { font-size: 0.7rem; color: var(--gray-400); line-height: 1.45; margin-bottom: 0.55rem; }
+        .member-works-label { font-size: 0.62rem; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.35rem; }
+        .member-bubbles { display: flex; flex-wrap: wrap; gap: 0.3rem; justify-content: center; }
+        .member-bubble { font-size: 0.67rem; padding: 0.18rem 0.52rem; background: var(--gray-100); color: var(--navy); border-radius: 20px; border: 1px solid var(--gray-200); font-weight: 500; line-height: 1.5; }
         .member-name { font-size: 0.92rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
         .member-role { font-size: 0.7rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
         .member-desc { font-size: 0.76rem; color: var(--gray-600); line-height: 1.55; }
@@ -484,28 +488,39 @@
 
         /* ── NEWS ── */
         .news-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
-        .news-item {
-            display: grid;
-            grid-template-columns: 190px 1fr;
-            gap: 1.5rem;
-            padding: 1.625rem 0;
-            border-bottom: 1px solid var(--gray-200);
-        }
-        .news-item:first-child { padding-top: 0; }
-        .news-image {
-            width: 100%;
-            aspect-ratio: 16/10;
-            background: linear-gradient(135deg, var(--navy), #1E3A5F);
-            border-radius: 10px;
+        /* ── Feed Style ─────────────────────────── */
+        .news-feed-item {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.25rem;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            align-items: flex-start;
         }
+        .news-feed-item:first-child { padding-top: 0; }
+        .news-feed-item:last-child  { border-bottom: none; }
+        .news-feed-icon {
+            width: 44px; height: 44px; flex-shrink: 0;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.35rem;
+        }
+        .news-feed-icon.type-Award       { background: #fef9c3; }
+        .news-feed-icon.type-Publication { background: #eff6ff; }
+        .news-feed-icon.type-People      { background: #f0fdf4; }
+        .news-feed-icon.type-Talk        { background: #faf5ff; }
+        .news-feed-icon.type-Grant       { background: #fff7ed; }
+        .news-feed-icon.type-default     { background: var(--gray-100); }
+        .news-feed-body { flex: 1; min-width: 0; }
+        .news-feed-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
+        .news-feed-title { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; line-height: 1.4; }
+        .news-feed-content { font-size: 0.82rem; color: var(--gray-600); line-height: 1.6; }
+        .news-feed-thumb {
+            width: 72px; height: 54px; flex-shrink: 0;
+            object-fit: cover; border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+        /* 이전 스타일 호환 */
         .news-item-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
-        .news-item h3 { font-size: 0.975rem; font-weight: 700; color: var(--navy); margin-bottom: 0.425rem; line-height: 1.4; cursor: pointer; transition: var(--transition); }
-        .news-item h3:hover { color: var(--accent-blue); }
-        .news-item p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.65; }
         .sidebar-widget {
             background: var(--off-white);
             border: 1px solid var(--gray-200);
@@ -595,7 +610,7 @@
 
             .news-grid-home { grid-template-columns: 1fr; }
             .news-layout { grid-template-columns: 1fr; }
-            .news-item { grid-template-columns: 1fr; }
+            .news-feed-item { flex-direction: row; }
             .alumni-grid { grid-template-columns: 1fr 1fr; }
             .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
@@ -713,9 +728,9 @@
     <div class="hero">
         <div class="hero-inner">
             <div class="hero-badge">Chonnam National University· College of Pharmacy</div>
-            <h1>Advancing Intelligence<br>for a <span class="highlight">Better World</span></h1>
+            <h1>Laboratory of<br> Peptide Therapeutics<br>with <span class="highlight">AI and pharmaceutics</span></h1>
             <p class="hero-subtitle">
-                We conduct cutting-edge research in artificial intelligence, robotics, and human-computer interaction — bridging fundamental science and real-world impact.
+                Our research integrates generative AI, computational biopharmaceutics, peptide engineering, and advanced drug delivery technologies to develop transformative biopharmaceuticals and precision diagnostics. From molecular design to preclinical validation and translational development, we aim to accelerate the next generation of peptide medicines with improved stability, bioavailability, and targeted therapeutic performance.
             </p>
             <div class="hero-actions">
                 <button class="btn-primary" onclick="showPage('research')">Explore Research</button>
@@ -1018,240 +1033,73 @@ const WORKER_URL = '';
 // ══ SITE DATA (Fallback / Sample) ════════════════════════════════════
 // ==SITE_DATA_START==
 const SITE_DATA = {
-  "publications": [
-    {
-      "year": 2026,
-      "category": "Conference",
-      "title": "Self-Supervised Representation Learning for Robotic Manipulation via Cross-Modal Contrastive Objectives",
-      "authors": "**Gildong Hong**, Jisoo Kim, Minjae Park, Soyeon Lee",
-      "venue": "NeurIPS 2026 (Oral Presentation)",
-      "badge": "best",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        },
-        {
-          "text": "Project Page",
-          "url": ""
-        },
-        {
-          "text": "Video",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "year": 2026,
-      "category": "Journal",
-      "title": "Multi-Modal Language Models for Scientific Knowledge Extraction and Hypothesis Generation",
-      "authors": "**Gildong Hong**, Hyunwoo Shin, Eunji Cho",
-      "venue": "Nature Machine Intelligence, 2026",
-      "badge": "nature",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        },
-        {
-          "text": "Dataset",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "year": 2025,
-      "category": "Conference",
-      "title": "3D Gaussian Splatting for Dynamic Scene Reconstruction from Monocular Video",
-      "authors": "Jisoo Kim, **Gildong Hong**",
-      "venue": "CVPR 2025",
-      "badge": "ieee",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        },
-        {
-          "text": "Demo",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "year": 2025,
-      "category": "Conference",
-      "title": "Emergent Communication in Multi-Agent Reinforcement Learning with Structured World Models",
-      "authors": "Minjae Park, Soyeon Lee, **Gildong Hong**",
-      "venue": "ICML 2025",
-      "badge": "acm",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "year": 2025,
-      "category": "Journal",
-      "title": "Efficient Neural Network Compression via Structured Pruning and Knowledge Distillation for Edge Robotics",
-      "authors": "Eunji Cho, Hyunwoo Shin, **Gildong Hong**",
-      "venue": "IEEE Transactions on Neural Networks and Learning Systems, 2025",
-      "badge": "ieee",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "year": 2024,
-      "category": "Conference",
-      "title": "Language-Conditioned Robot Manipulation via Vision-Language Pre-training and Hierarchical Planning",
-      "authors": "**Gildong Hong**, Jisoo Kim, Taehyun Ryu",
-      "venue": "RSS 2024 (Robotics: Science and Systems)",
-      "badge": "ieee",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        },
-        {
-          "text": "Video",
-          "url": ""
-        },
-        {
-          "text": "Website",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "year": 2024,
-      "category": "Conference",
-      "title": "Human-Guided Reinforcement Learning for Safe Robotic Exploration in Unstructured Environments",
-      "authors": "Soyeon Lee, Minjae Park, **Gildong Hong**",
-      "venue": "IROS 2024",
-      "badge": "ieee",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "year": 2024,
-      "category": "Journal",
-      "title": "Uncertainty-Aware Sim-to-Real Transfer for Contact-Rich Manipulation Tasks",
-      "authors": "Jiwon Han, **Gildong Hong**, Jisoo Kim",
-      "venue": "International Journal of Robotics Research (IJRR), 2024",
-      "badge": "science",
-      "doi": "",
-      "links": [
-        {
-          "text": "PDF",
-          "url": ""
-        }
-      ]
-    }
-  ],
+  "publications": [],
   "members": [
     {
       "category": "PhD",
-      "emoji": "👩‍💻",
+      "emoji": "",
       "photo": "images/members/DedongYu.jpg",
       "name": "Dedong Yu",
-      "role": "Ph.D candidate, '25.Sep ~",
-      "info": "**Current work**: Building biomaterial to enable multi-route delivery of drugs, focusing on addressing inflammatory diseases"
+      "role": "Ph.D. candidate; '25.Sep~",
+      "info": "Current work: Building biomaterial to enable multi-route delivery of drugs, Peptide engineering, focusing on addressing inflammatory diseases"
     },
     {
-      "category": "Staff",
+      "category": "MS",
+      "emoji": "",
+      "photo": "images/members/NariHan.jpg",
+      "name": "Nari Han",
+      "role": "M.S. candidate, '25.Mar ~",
+      "info": "<strong>Current work</strong>: Cell-penetrating peptides design, peptide synthesis, self-assembled formulation development"
+    },
+    {
+      "category": "MS",
+      "emoji": "",
+      "photo": "images/members/HyejeongSon.jpg",
+      "name": "Hyejeong Son",
+      "role": "M.S. candidate, '25.Sep ~",
+      "info": "<strong>Current work</strong>: pLM-based peptides design and developing self-assembly peptides for immuno-oncology, Development of bio-active feed"
+    },
+    {
+      "category": "MS",
+      "emoji": "",
+      "photo": "images/members/JihooKim.jpg",
+      "name": "Jihoo Kim",
+      "role": "M.S. candidate, '26.Mar ~",
+      "info": "<strong>Current Work</strong>: Design of peptides taegeting undruggable proteins with pLM model"
+    },
+    {
+      "category": "BS",
+      "emoji": "",
       "photo": "",
-      "emoji": "🧑‍🔬",
-      "role": "Postdoctoral Researcher",
-      "name": "한지원 (Jiwon Han)",
-      "info": "Ph.D. ETH Zurich, 2024<br>Sim-to-real transfer · Locomotion"
-    },
-    {
-      "category": "Alumni",
-      "name": "오성준 (Sungjun Oh)",
-      "info": "Ph.D. 2024 → Google DeepMind"
-    },
-    {
-      "category": "Alumni",
-      "name": "윤채린 (Chaerin Yoon)",
-      "info": "M.S. 2024 → Samsung Research"
-    },
-    {
-      "category": "Alumni",
-      "name": "임도현 (Dohyun Lim)",
-      "info": "Ph.D. 2023 → MIT Postdoc"
-    },
-    {
-      "category": "Alumni",
-      "name": "강나래 (Narae Kang)",
-      "info": "M.S. 2023 → LG AI Research"
-    },
-    {
-      "category": "Alumni",
-      "name": "배지훈 (Jihoon Bae)",
-      "info": "Ph.D. 2022 → Naver Labs"
-    },
-    {
-      "category": "Alumni",
-      "name": "최예슬 (Yeseul Choi)",
-      "info": "M.S. 2022 → Kakao Brain"
+      "name": "Minyoung Kim",
+      "role": "Undergraduate Researcher",
+      "info": "<strong>Current Work</strong>: Guideline development for complex-generics"
     }
   ],
   "news": [
     {
-      "emoji": "🏆",
+      "emoji": "🎤",
+      "type": "Talk",
+      "date": "Jun 22 (Mon) - 24 (Wed), 2026",
       "photo": "",
-      "type": "Award",
-      "date": "Jun 15, 2026",
-      "title": "Best Paper Award at NeurIPS 2026",
-      "content": "We are thrilled to announce that our paper received the Best Paper Award at NeurIPS 2026, held in Vancouver, Canada."
-    },
-    {
-      "emoji": "📄",
-      "photo": "",
-      "type": "Publication",
-      "date": "May 3, 2026",
-      "title": "New Paper Accepted at Nature Machine Intelligence",
-      "content": "Our paper &ldquo;Multi-Modal Language Models for Scientific Knowledge Extraction&rdquo; has been accepted for publication in Nature Machine Intelligence."
+      "title": "Invited Talk at 29th KPPS Annual Symposium",
+      "content": "Prof. Kweon gave an oral lecture at 29th KPPS Annual Symposium"
     },
     {
       "emoji": "🎓",
-      "photo": "",
       "type": "People",
-      "date": "Apr 1, 2026",
-      "title": "Welcome New Lab Members!",
-      "content": "We are delighted to welcome three new PhD students and one MS student joining our lab in Spring 2026."
-    },
-    {
-      "emoji": "🎤",
+      "date": "Mar 1, 2026",
       "photo": "",
-      "type": "Talk",
-      "date": "Mar 12, 2026",
-      "title": "Invited Talk at KAIST AI Colloquium",
-      "content": "Prof. Kweon gave an invited talk on peptide drug delivery systems at the KAIST AI Colloquium Series."
+      "title": "Welcome New Lab Members! Jihoo Kim",
+      "content": "We are delighted to welcome new BS/MS integrated students joining our lab."
     },
     {
       "emoji": "🤝",
-      "photo": "",
       "type": "Grant",
-      "date": "Jan 20, 2026",
-      "title": "NRF Research Grant Awarded — ₩500M",
-      "content": "The lab has been awarded a ₩500M research grant from the National Research Foundation of Korea (NRF) for our project on peptide-based therapeutics."
+      "date": "Apr, 2026 – Dec, 2030",
+      "photo": "",
+      "title": "IPET Grant Awarded",
+      "content": "The lab has been awarded a IPET grant from the Ministry of Agriculture, Food and Rural Affairs (MAFRA), \"K-bioFEED: Development of Korean bio-functional and enhanced eco-friendly cell culture media\""
     }
   ],
   "research": [
@@ -1394,8 +1242,8 @@ const SITE_DATA = {
     }
 
     function renderMembers(members) {
-        const cats = ['PhD','MS','Staff','Alumni'];
-        const labels = { PhD:'Ph.D. Students', MS:'M.S. Students', Staff:'Research Staff & Visiting', Alumni:'Alumni' };
+        const cats = ['PhD','MS','BS','Staff','Alumni'];
+        const labels = { PhD:'Ph.D. Students', MS:'M.S. Students', BS:'B.S. Students', Staff:'Research Staff & Visiting', Alumni:'Alumni' };
         let html = '';
         cats.forEach(cat => {
             const list = members.filter(m=>m.category===cat);
@@ -1420,7 +1268,13 @@ const SITE_DATA = {
                         <div class="member-body">
                             <div class="member-role">${m.role}</div>
                             <div class="member-name">${m.name}</div>
-                            <p class="member-desc">${m.info}</p>
+                            ${(()=>{
+                                const parts = (m.info||'').split('<br>');
+                                const edu = parts[0]||'';
+                                const works = (parts.slice(1).join(' ')).split('·').map(s=>s.trim()).filter(Boolean);
+                                return (edu ? `<div class="member-edu">${edu}</div>` : '')
+                                    + (works.length ? `<div class="member-works-label">Current Works</div><div class="member-bubbles">${works.map(w=>`<span class="member-bubble">${w}</span>`).join('')}</div>` : '');
+                            })()}
                         </div>
                     </div>`).join('')}</div>`;
             }
@@ -1429,21 +1283,23 @@ const SITE_DATA = {
     }
 
     function renderNews(news) {
+        const typeClass = t => {
+            const map = {Award:'type-Award', Publication:'type-Publication',
+                         People:'type-People', Talk:'type-Talk', Grant:'type-Grant'};
+            return map[t] || 'type-default';
+        };
         document.getElementById('news-main').innerHTML = news.map(n=>`
-            <div class="news-item">
-                <div class="news-image" style="${n.photo ? 'padding:0;overflow:hidden;' : ''}">
-                    ${n.photo
-                        ? `<img src="${n.photo}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`
-                        : (n.emoji || '📰')}
-                </div>
-                <div>
-                    <div class="news-item-meta">
+            <div class="news-feed-item">
+                <div class="news-feed-icon ${typeClass(n.type)}">${n.emoji || '📰'}</div>
+                <div class="news-feed-body">
+                    <div class="news-feed-meta">
                         <span class="news-type-tag">${n.type}</span>
                         <span class="news-date">${n.date}</span>
                     </div>
-                    <h3>${n.title}</h3>
-                    <p>${n.content}</p>
+                    <div class="news-feed-title">${n.title}</div>
+                    <div class="news-feed-content">${n.content}</div>
                 </div>
+                ${n.photo ? `<img class="news-feed-thumb" src="${n.photo}" alt="${n.title}" onerror="this.style.display='none'">` : ''}
             </div>`).join('');
     }
 
